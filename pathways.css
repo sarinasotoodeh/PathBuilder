@@ -36,7 +36,7 @@ main {
 
 #pathMap {
     position: relative;
-    height: 320px;
+    height: 500px;
     background: #eef1f5;
     border-radius: 12px;
 }
@@ -48,20 +48,27 @@ main {
     transform: translate(-50%, -50%);
     background: #4f46e5;
     color: white;
-    padding: 0.75rem 1rem;
+    padding: 1rem 1.5rem;
     border-radius: 999px;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
+    font-weight: 600;
 }
 
 .mapIcon {
     position: absolute;
-    width: 52px;
-    height: 52px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     background: white;
     border: 2px solid #ccc;
-    font-size: 1.6rem;
+    font-size: 2.2rem;
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mapIcon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .mapIcon.active {
@@ -96,9 +103,17 @@ main {
 
 #mapInfo {
     background: white;
-    padding: 1.25rem;
+    padding: 2rem;
     border-radius: 12px;
     border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#mapInfo h2 {
+    font-size: 1.5rem;
+    margin-top: 0;
 }
 
 /* ===== Cards ===== */
