@@ -52,7 +52,6 @@ const pathways = {
 };
 
 const mapInfo = document.getElementById("mapInfo");
-const cards = document.getElementById("cards");
 
 // Render a concise, readable summary of the saved profile
 const profileContent = document.getElementById("profileContent");
@@ -95,21 +94,6 @@ document.querySelectorAll(".mapIcon").forEach(btn => {
     btn.addEventListener("click", () => selectPath(btn.dataset.path));
 });
 
-// Build cards
-for (const key in pathways) {
-    const p = pathways[key];
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-    ${p.tag ? `<div class="tag">${p.tag}</div>` : ""}
-    <h3>${p.icon} ${p.title}</h3>
-    <p>${p.why}</p>
-    <p><strong>Time:</strong> ${p.time}</p>
-    <p><strong>Cost:</strong> ${p.cost}</p>
-    <p><strong>Style:</strong> ${p.style}</p>
-    `;
-    cards.appendChild(card);
-}
 document.getElementById("careerHeader").textContent =
   `Career Goal: ${userProfile.careerGoal}`;
 let bestPath = "college";
