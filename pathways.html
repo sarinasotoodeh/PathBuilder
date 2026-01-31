@@ -2,53 +2,73 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Your Pathways</title>
-    <link rel="stylesheet" href="pathways.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Pathways</title>
+  <link rel="stylesheet" href="pathways.css">
 </head>
 
 <body>
 
-    <header>
-        <h1 id="careerHeader"></h1>
-        <p>There’s more than one way to get there — these are paths that could work for you.</p>
-    </header>
+  <header>
+    <h1 id="careerHeader"></h1>
+    <p>There’s more than one way to get there — these are paths that could work for you.</p>
+  </header>
 
+  <main>
 
-    <main>
+    <!-- ===== Map + Details ===== -->
+    <section id="mapLayout">
 
-        <!-- ===== Map + Details ===== -->
-        <section id="mapLayout">
-            <div id="pathMap">
-  <svg id="mapSvg" aria-hidden="true" focusable="false"></svg>
-                <div class="centerNode">You</div>
- 
-                <button class="mapIcon uni" data-path="uni">🎓</button>
-                <button class="mapIcon college" data-path="college">🏫</button>
-                <button class="mapIcon bootcamp" data-path="bootcamp">💻</button>
-                <button class="mapIcon apprenticeship" data-path="apprenticeship">🛠️</button>
-                <button class="mapIcon military" data-path="military">🎖️</button>
-            </div>
+      <div id="pathMap">
+        <!-- SVG lines -->
+        <svg id="mapLines" viewBox="0 0 1000 500" preserveAspectRatio="none">
+          <line id="line-you-uni" x1="140" y1="250" x2="420" y2="110" />
+          <line id="line-you-college" x1="140" y1="250" x2="420" y2="200" />
+          <line id="line-you-bootcamp" x1="140" y1="250" x2="420" y2="290" />
+          <line id="line-you-apprenticeship" x1="140" y1="250" x2="420" y2="380" />
+          <line id="line-you-military" x1="140" y1="250" x2="420" y2="470" />
 
-            <div id="mapInfo">
-                <h2>Select a pathway</h2>
-                <p>Click an icon on the map to see why it might work for you.</p>
-            </div>
-    </main>
+          <line id="line-uni-goal" x1="420" y1="110" x2="860" y2="250" />
+          <line id="line-college-goal" x1="420" y1="200" x2="860" y2="250" />
+          <line id="line-bootcamp-goal" x1="420" y1="290" x2="860" y2="250" />
+          <line id="line-apprenticeship-goal" x1="420" y1="380" x2="860" y2="250" />
+          <line id="line-military-goal" x1="420" y1="470" x2="860" y2="250" />
+        </svg>
 
-    <section id="profileSummary" class="card" style="margin:16px 0;">
-        <h2>Your answers</h2>
-        <div id="profileContent">No answers found.</div>
-        <div style="margin-top:10px;">
-            <button id="editAnswers">Edit answers</button>
-        </div>
+        <!-- Start -->
+        <div class="node startNode">You</div>
+
+        <!-- Pathways -->
+        <button class="node pathNode uni" data-path="uni">🎓<span>University</span></button>
+        <button class="node pathNode college" data-path="college">🏫<span>College</span></button>
+        <button class="node pathNode bootcamp" data-path="bootcamp">💻<span>Bootcamp</span></button>
+        <button class="node pathNode apprenticeship" data-path="apprenticeship">🛠️<span>Apprenticeship</span></button>
+        <button class="node pathNode military" data-path="military">🎖️<span>Military</span></button>
+
+        <!-- Goal -->
+        <div class="node goalNode" id="goalNode">Career Goal</div>
+      </div>
+
+      <!-- Info panel (IMPORTANT) -->
+      <div id="mapInfo">
+        <h2>Select a pathway</h2>
+        <p>Click an icon to see how it can lead to your goal.</p>
+      </div>
+
     </section>
 
-    <script src="pathways.js"></script>
+  </main>
 
+  <section id="profileSummary" class="card" style="margin:16px 0;">
+    <h2>Your answers</h2>
+    <div id="profileContent">No answers found.</div>
+    <div style="margin-top:10px;">
+      <button id="editAnswers">Edit answers</button>
+    </div>
+  </section>
 
+  <script src="pathways.js"></script>
 
 </body>
-
 </html>
