@@ -109,6 +109,12 @@ button:focus,
     gap: 14px;
 }
 
+.col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 @media (max-width: 720px) {
     .row {
         grid-template-columns: 1fr;
