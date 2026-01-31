@@ -179,3 +179,20 @@ main {
         grid-template-columns: 1fr;
     }
 }
+
+
+/* ===== Map SVG paths ===== */
+#mapSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+.centerNode, .mapIcon { z-index: 2; }
+.map-path { fill:none; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; opacity:0.95; stroke-dasharray:400; stroke-dashoffset:400; animation:path-draw 700ms ease-out forwards; }
+.map-path--glow { filter: blur(6px); opacity:0.18; }
+@keyframes path-draw { to { stroke-dashoffset: 0; } }
+@media (max-width:800px) { #mapSvg { display:none; } }

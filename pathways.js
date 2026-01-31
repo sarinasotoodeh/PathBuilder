@@ -6,49 +6,49 @@ if (!userProfile) {
 }
 
 const pathways = {
-    uni: {
-        icon: "🎓",
-        title: "University Degree",
-        why: "Strong grades and interest in theory make this a good fit.",
-        time: "4 years",
-        cost: "High",
-        style: "Academic",
-        tag: "Best match"
-    },
-    college: {
-        icon: "🏫",
-        title: "College Diploma",
-        why: "Hands-on learning with faster entry to jobs.",
-        time: "2–3 years",
-        cost: "Medium",
-        style: "Mixed"
-    },
-    bootcamp: {
-        icon: "💻",
-        title: "Bootcamp",
-        why: "Fast, intensive, and skill-focused.",
-        time: "6–12 months",
-        cost: "Medium",
-        style: "Hands-on",
-        tag: "Fastest"
-    },
-    apprenticeship: {
-        icon: "🛠️",
-        title: "Apprenticeship",
-        why: "Earn while you learn with real experience.",
-        time: "2–5 years",
-        cost: "Low",
-        style: "Hands-on",
-        tag: "Lowest cost"
-    },
-    military: {
-        icon: "🎖️",
-        title: "Military",
-        why: "Structured training with paid education options.",
-        time: "Varies",
-        cost: "Low",
-        style: "Structured"
-    }
+  uni: {
+    icon: "🎓",
+    title: "University Degree",
+    why: "Strong grades and interest in theory make this a good fit.",
+    time: "4 years",
+    cost: "High",
+    style: "Academic",
+    tag: "Best match"
+  },
+  college: {
+    icon: "🏫",
+    title: "College Diploma",
+    why: "Hands-on learning with faster entry to jobs.",
+    time: "2–3 years",
+    cost: "Medium",
+    style: "Mixed"
+  },
+  bootcamp: {
+    icon: "💻",
+    title: "Bootcamp",
+    why: "Fast, intensive, and skill-focused.",
+    time: "6–12 months",
+    cost: "Medium",
+    style: "Hands-on",
+    tag: "Fastest"
+  },
+  apprenticeship: {
+    icon: "🛠️",
+    title: "Apprenticeship",
+    why: "Earn while you learn with real experience.",
+    time: "2–5 years",
+    cost: "Low",
+    style: "Hands-on",
+    tag: "Lowest cost"
+  },
+  military: {
+    icon: "🎖️",
+    title: "Military",
+    why: "Structured training with paid education options.",
+    time: "Varies",
+    cost: "Low",
+    style: "Structured"
+  }
 };
 
 const mapInfo = document.getElementById("mapInfo");
@@ -77,18 +77,18 @@ if (profileContent && userProfile) {
 }
 
 function selectPath(key) {
-    document.querySelectorAll(".mapIcon").forEach(b => b.classList.remove("active"));
-    document.querySelector(`.mapIcon[data-path="${key}"]`).classList.add("active");
-    
-    const p = pathways[key];
-    const detailPageMap = {
-        uni: "uni-detail.html",
-        college: "college-detail.html",
-        bootcamp: "bootcamp-detail.html",
-        apprenticeship: "apprenticeship-detail.html",
-        military: "military-detail.html"
-    };
-    mapInfo.innerHTML = `
+  document.querySelectorAll(".mapIcon").forEach(b => b.classList.remove("active"));
+  document.querySelector(`.mapIcon[data-path="${key}"]`).classList.add("active");
+
+  const p = pathways[key];
+  const detailPageMap = {
+    uni: "uni-detail.html",
+    college: "college-detail.html",
+    bootcamp: "bootcamp-detail.html",
+    apprenticeship: "apprenticeship-detail.html",
+    military: "military-detail.html"
+  };
+  mapInfo.innerHTML = `
     <h2>${p.icon} ${p.title}</h2>
     <p>${p.why}</p>
     <p><strong>Time:</strong> ${p.time}</p>
@@ -101,7 +101,7 @@ function selectPath(key) {
 }
 
 document.querySelectorAll(".mapIcon").forEach(btn => {
-    btn.addEventListener("click", () => selectPath(btn.dataset.path));
+  btn.addEventListener("click", () => selectPath(btn.dataset.path));
 });
 
 document.getElementById("careerHeader").textContent =
@@ -199,3 +199,85 @@ rankedPaths.forEach(([key], index) => {
 
 // 8. Auto-select best path on load
 selectPath(rankedPaths[0][0]);
+// ===== SVG curved pathways (copy this to the end of `pathways.js`) =====
+
+function ensureSvg() {
+  let svg = document.getElementById('mapSvg');
+  if (!svg) {
+    const container = document.getElementById('pathMap');
+    if (!container) return null;
+    svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.id = 'mapSvg';
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    container.insertBefore(svg, container.firstChild);
+  }
+  return svg;
+}
+
+function ensurePathDefs(svg) {
+  if (svg.querySelector('#pathGradient')) return;
+  const ns = 'http://www.w3.org/2000/svg';
+  const defs = document.createElementNS(ns, 'defs');
+
+  const grad = document.createElementNS(ns, 'linearGradient');
+  grad.setAttribute('id', 'pathGradient');
+  grad.setAttribute('x1', '0'); grad.setAttribute('x2', '1');
+  const s1 = document.createElementNS(ns, 'stop'); s1.setAttribute('offset', '0'); s1.setAttribute('stop-color', '#7c3aed');
+  const s2 = document.createElementNS(ns, 'stop'); s2.setAttribute('offset', '1'); s2.setAttribute('stop-color', '#06b6d4');
+  grad.appendChild(s1); grad.appendChild(s2);
+  defs.appendChild(grad);
+
+  svg.appendChild(defs);
+}
+
+function drawCurvedPaths() {
+  const svg = ensureSvg();
+  const container = document.getElementById('pathMap');
+  const center = document.querySelector('.centerNode');
+  if (!svg || !container || !center) return;
+  ensurePathDefs(svg);
+
+  // remove previous paths (keep defs)
+  [...svg.querySelectorAll('path.map-path, path.map-path--glow')].forEach(n => n.remove());
+
+  const sRect = container.getBoundingClientRect();
+  const cRect = center.getBoundingClientRect();
+  const cx = cRect.left - sRect.left + cRect.width / 2;
+  const cy = cRect.top - sRect.top + cRect.height / 2;
+
+  document.querySelectorAll('.mapIcon').forEach(icon => {
+    const r = icon.getBoundingClientRect();
+    const ix = r.left - sRect.left + r.width / 2;
+    const iy = r.top - sRect.top + r.height / 2;
+
+    const dx = ix - cx;
+    const cx1 = cx + dx * 0.28;
+    const cy1 = cy - Math.sign(dx) * Math.max(20, Math.abs(dx) * 0.12);
+    const cx2 = cx + dx * 0.72;
+    const cy2 = iy + Math.sign(dx) * Math.max(20, Math.abs(dx) * 0.12);
+    const d = `M ${cx},${cy} C ${cx1},${cy1} ${cx2},${cy2} ${ix},${iy}`;
+
+    const ns = 'http://www.w3.org/2000/svg';
+    // glow (blurred wider stroke)
+    const glow = document.createElementNS(ns, 'path');
+    glow.setAttribute('d', d);
+    glow.setAttribute('class', 'map-path map-path--glow');
+    glow.setAttribute('stroke', '#7c3aed');
+    glow.setAttribute('stroke-width', '8');
+    svg.appendChild(glow);
+
+    // main path with gradient
+    const path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('class', 'map-path');
+    path.setAttribute('stroke', 'url(#pathGradient)');
+    svg.appendChild(path);
+  });
+}
+
+// listeners + safe initial redraw
+window.addEventListener('load', drawCurvedPaths);
+window.addEventListener('resize', drawCurvedPaths);
+document.querySelectorAll('.mapIcon').forEach(b => b.addEventListener('click', () => setTimeout(drawCurvedPaths, 0)));
+setTimeout(drawCurvedPaths, 80);g
