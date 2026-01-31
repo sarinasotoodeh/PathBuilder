@@ -202,6 +202,33 @@ button:disabled {
     color: var(--muted);
 }
 
+/* Progress display for the quiz */
+#progress {
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 8px;
+}
+
+.actions button {
+    min-width: 110px;
+}
+
+#backBtn {
+    background: transparent;
+}
+
+#nextBtn {
+    background: linear-gradient(90deg,#7aa7ff,#6aa0ff);
+    border: none;
+    color: white;
+}
+
+#submitBtn {
+    background: linear-gradient(90deg,#60d394,#43d17b);
+    border: none;
+    color: white;
+}
+
 pre {
     background: rgba(0, 0, 0, 0.28);
     border: 1px solid var(--border);

@@ -99,6 +99,42 @@ const form = qs("#intakeForm");
 const resetBtn = qs("#resetBtn");
 const output = qs("#output");
 
+// Populate form from saved profile (so Edit returns with selections intact)
+function populateFormFromStorage() {
+    try {
+        const raw = localStorage.getItem("userProfile");
+        if (!raw) return;
+        const stored = JSON.parse(raw);
+
+        if (stored.careerGoal) qs("#careerGoal").value = stored.careerGoal;
+        if (stored.hsYear !== undefined && stored.hsYear !== null) qs("#hsYear").value = String(stored.hsYear);
+        if (stored.avgGrade !== undefined && stored.avgGrade !== null) qs("#avgGrade").value = String(stored.avgGrade);
+
+        // checkboxes (subjects, interests)
+        if (Array.isArray(stored.subjects)) {
+            qsa('input[name="subjects"]').forEach(cb => cb.checked = stored.subjects.includes(cb.value));
+        }
+        if (Array.isArray(stored.interests)) {
+            qsa('input[name="interests"]').forEach(cb => cb.checked = stored.interests.includes(cb.value));
+        }
+
+        // radios (learningStyle, financePref)
+        if (stored.learningStyle) {
+            qsa('input[name="learningStyle"]').forEach(r => r.checked = r.value === stored.learningStyle);
+        }
+        if (stored.financePref) {
+            qsa('input[name="financePref"]').forEach(r => r.checked = r.value === stored.financePref);
+        }
+
+        lightweightCheck();
+    } catch (err) {
+        console.warn('Could not populate form from storage', err);
+    }
+}
+
+// populate on load so Edit answers works
+populateFormFromStorage();
+
 form.addEventListener("input", lightweightCheck);
 form.addEventListener("change", lightweightCheck);
 

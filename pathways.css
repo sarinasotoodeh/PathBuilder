@@ -115,6 +115,35 @@ main {
     border: 1px solid #ddd;
 }
 
+/* Profile summary tweaks */
+#profileSummary.card {
+    display: block;
+}
+#profileContent {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem 1rem;
+    color: #334155;
+    font-size: 0.95rem;
+}
+#profileContent div {
+    padding: 6px 0;
+}
+#profileContent strong {
+    color: #0f172a;
+    font-weight: 700;
+    margin-right: 6px;
+}
+#profileSummary button {
+    background: #4f46e5;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+#profileSummary button:hover { opacity: 0.95; }
+
 .card h3 {
     margin-top: 0;
 }
