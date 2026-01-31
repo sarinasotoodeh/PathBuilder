@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ontario Bootcamps</title>
+    <link rel="stylesheet" href="pathways.css">
+    <style>
+        * { transition: all 0.3s ease; }
+        .detail-container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .back-btn { display:inline-block; margin-bottom:2rem; padding:0.85rem 1.5rem; background:linear-gradient(135deg,#06b6d4,#0284c7); color:white; border:none; border-radius:50px; font-weight:600; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+        .back-btn:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,0.15); }
+        .search-bar { background:white; padding:1.5rem; border-radius:16px; border:2px solid transparent; margin-bottom:2rem; box-shadow:0 1px 3px rgba(0,0,0,0.06),0 2px 8px rgba(0,0,0,0.04); }
+        .search-bar input { width:100%; padding:12px 16px; border:2px solid #e2e8f0; border-radius:10px; font-size:16px; }
+        .filter-buttons { display:flex; gap:0.75rem; margin-bottom:1.5rem; flex-wrap:wrap; }
+        .filter-btn { padding:0.65rem 1.25rem; background:#f8fafc; border:2px solid #e2e8f0; border-radius:50px; cursor:pointer; font-weight:600; }
+        .filter-btn.active { background:linear-gradient(135deg,#06b6d4,#0284c7); color:white; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+        .bootcamps-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:1.5rem; margin-bottom:2rem; }
+        .bootcamp-card { background:white; border:2px solid transparent; border-radius:16px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.06),0 2px 8px rgba(0,0,0,0.04); position:relative; }
+        .bootcamp-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg,#06b6d4,#0284c7); z-index:1; }
+        .bootcamp-header { padding:1.25rem; background:linear-gradient(135deg,#06b6d4,#0284c7); color:white; }
+        .bootcamp-header h3 { margin:0; font-size:1.15rem; font-weight:700; }
+        .bootcamp-meta { font-size:0.9rem; opacity:0.95; margin-top:0.5rem; }
+        .bootcamp-content { padding:1.25rem; }
+        .section-title { font-weight:700; background:linear-gradient(135deg,#06b6d4,#0284c7); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:0.5rem; }
+        .info-list { list-style:none; padding:0; margin:0; }
+        .info-list li { padding:0.35rem 0; color:#334155; }
+        .apply-btn { display:inline-block; padding:0.6rem 1rem; background:linear-gradient(135deg,#06b6d4,#0284c7); color:white; border-radius:50px; text-decoration:none; font-weight:600; margin-top:0.5rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>💻 Ontario Bootcamps</h1>
+        <p>Find bootcamps in Ontario tailored to your career goal and learn how each program moves you closer to that target.</p>
+    </header>
+
+    <div class="detail-container">
+        <button class="back-btn" onclick="window.history.back()">← Back</button>
+
+        <div class="search-bar">
+            <input id="searchInput" placeholder="Search bootcamps or skills..." />
+        </div>
+
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Goals</button>
+            <button class="filter-btn" data-filter="web-dev">Web Development</button>
+            <button class="filter-btn" data-filter="data">Data Science</button>
+            <button class="filter-btn" data-filter="cyber">Cybersecurity</button>
+            <button class="filter-btn" data-filter="ux">UX/UI Design</button>
+            <button class="filter-btn" data-filter="devops">DevOps</button>
+        </div>
+
+        <div class="bootcamps-grid" id="bootcampsGrid"></div>
+    </div>
+
+    <script>
+        const bootcamps = [
+            {
+                name: "Full-Stack Web Development (Intensive)",
+                careerGoal: "web-dev",
+                providerExamples: ["Lighthouse Labs", "BrainStation", "Juno College"],
+                duration: "12 weeks",
+                cost: "$9,000 - $13,000",
+                careerPathTitle: "Launch as a Junior Web Developer",
+                careerPathDesc: "Covers HTML/CSS/JavaScript, Node.js, databases and deployment. Builds a portfolio of real projects to help you get interviews for junior developer roles quickly.",
+                howToFind: ["Search provider websites (Lighthouse Labs, BrainStation)", "Attend free info sessions", "Check local college bootcamp partnerships"],
+                whoToContact: ["Bootcamp admissions teams", "Career services at each provider", "Local hiring partners and meetups"],
+                howToApply: ["Complete online application", "Take entrance coding challenge", "Attend interview or info session", "Apply for financing or scholarships if needed"],
+                requirements: "Motivation, basic coding familiarity helps but not always required"
+            },
+            {
+                name: "Data Science & Machine Learning", 
+                careerGoal: "data",
+                providerExamples: ["BrainStation", "Data Science Dojo", "Local college diplomas"],
+                duration: "12-24 weeks",
+                cost: "$10,000 - $16,000",
+                careerPathTitle: "Path to Data Analyst / Junior Data Scientist",
+                careerPathDesc: "Teaches Python, statistics, data cleaning, visualization, and introductory ML. Graduates build portfolio projects and dashboards employers look for.",
+                howToFind: ["Search provider sites and LinkedIn Learning partners", "Look for bootcamps with career outcomes and portfolio support"],
+                whoToContact: ["Bootcamp admissions", "Data hiring partners", "Alumni networks and mentors"],
+                howToApply: ["Apply online", "Complete basic math/stat assessment", "Portfolio or mini-project may be requested", "Interview with admissions"],
+                requirements: "Comfort with math/statistics and willingness to learn Python"
+            },
+            {
+                name: "Cybersecurity Immersive",
+                careerGoal: "cyber",
+                providerExamples: ["CompTIA-aligned bootcamps", "local colleges offering cybersecurity tracks"],
+                duration: "10-20 weeks",
+                cost: "$8,000 - $14,000",
+                careerPathTitle: "Entry to Security Operations / Analyst Roles",
+                careerPathDesc: "Hands-on labs in network security, incident response, and tooling prepare you for SOC roles and entry-level certifications (e.g., CompTIA Security+).",
+                howToFind: ["Search specialized cybersecurity bootcamps", "Attend security meetups and conferences"],
+                whoToContact: ["Bootcamp admissions", "Security hiring managers at local companies", "Cybersecurity meetup organizers"],
+                howToApply: ["Online application", "Basic networking knowledge assessment", "Interview and hands-on test"],
+                requirements: "Familiarity with networking basics and command line recommended"
+            },
+            {
+                name: "UX/UI Design Bootcamp",
+                careerGoal: "ux",
+                providerExamples: ["General Assembly", "BrainStation", "Local design schools"],
+                duration: "8-12 weeks",
+                cost: "$6,000 - $12,000",
+                careerPathTitle: "Build a Design Portfolio",
+                careerPathDesc: "Focuses on user research, wireframing, prototyping, and usability testing so you can demonstrate practical UX process and portfolio-ready case studies.",
+                howToFind: ["Search provider sites, attend portfolio workshops", "Join local design meetups and hackathons"],
+                whoToContact: ["Design program admissions", "Local UX agencies and hiring managers", "Mentors from provider networks"],
+                howToApply: ["Application + portfolio or sample work (if available)", "Interview with admissions", "Complete any prep assignments"],
+                requirements: "Portfolio or demonstrated design thinking preferred, but many accept motivated beginners"
+            },
+            {
+                name: "DevOps / Cloud Engineer Bootcamp",
+                careerGoal: "devops",
+                providerExamples: ["Cloud bootcamps, vendor training (AWS, Azure)", "local colleges with cloud tracks"],
+                duration: "10-16 weeks",
+                cost: "$9,000 - $15,000",
+                careerPathTitle: "Path to DevOps / Cloud Roles",
+                careerPathDesc: "Covers CI/CD, containerization, cloud fundamentals, and automation—skills that accelerate entry into platform and SRE roles.",
+                howToFind: ["Search cloud vendor training + bootcamps", "Look for hands-on lab-heavy programs"],
+                whoToContact: ["Provider admissions", "Cloud community meetups and user groups"],
+                howToApply: ["Online application", "Technical assessment focused on scripting and basic Linux", "Interview"],
+                requirements: "Comfort with scripting, Linux basics helpful"
+            }
+        ];
+
+        function renderBootcamps(list) {
+            const grid = document.getElementById('bootcampsGrid');
+            grid.innerHTML = '';
+            list.forEach(b => {
+                const card = document.createElement('div');
+                card.className = 'bootcamp-card';
+                card.innerHTML = `
+                    <div class="bootcamp-header">
+                        <h3>${b.name}</h3>
+                        <div class="bootcamp-meta">${b.duration} • ${b.cost}</div>
+                    </div>
+                    <div class="bootcamp-content">
+                        <div class="section-title">🎯 ${b.careerPathTitle}</div>
+                        <p style="margin:0 0 0.75rem 0; color:#334155">${b.careerPathDesc}</p>
+
+                        <div class="section-title">How to Find</div>
+                        <ul class="info-list">${b.howToFind.map(i=>`<li>${i}</li>`).join('')}</ul>
+
+                        <div style="margin-top:0.5rem" class="section-title">Who to Contact</div>
+                        <ul class="info-list">${b.whoToContact.map(i=>`<li>${i}</li>`).join('')}</ul>
+
+                        <div style="margin-top:0.5rem" class="section-title">How to Apply</div>
+                        <ul class="info-list">${b.howToApply.map(i=>`<li>${i}</li>`).join('')}</ul>
+
+                        <div style="margin-top:0.5rem" class="section-title">Requirements</div>
+                        <p style="margin:0">${b.requirements}</p>
+
+                        <a class="apply-btn" href="#" onclick="alert('Open provider site to apply')">Learn More / Apply →</a>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        document.getElementById('searchInput').addEventListener('input', e => {
+            const q = e.target.value.toLowerCase();
+            renderBootcamps(bootcamps.filter(b => b.name.toLowerCase().includes(q) || b.providerExamples.join(' ').toLowerCase().includes(q)));
+        });
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', e => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                const f = e.target.dataset.filter;
+                let filtered = bootcamps;
+                if (f !== 'all') filtered = bootcamps.filter(b => b.careerGoal === f);
+                renderBootcamps(filtered);
+            });
+        });
+
+        renderBootcamps(bootcamps);
+    </script>
+</body>
+</html>
