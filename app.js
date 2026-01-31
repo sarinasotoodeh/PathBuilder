@@ -130,9 +130,33 @@ resetBtn.addEventListener("click", () => {
     form.reset();
     resetFormState();
     qs("#careerGoal").focus();
+    // go back to first step when resetting
+    if (typeof showStep === "function") showStep(0);
 });
 
 // Initial state
 qs("#submitBtn").disabled = true;
-localStorage.setItem("userProfile", JSON.stringify(userProfile));
-window.location.href = "pathways.html";
+
+// PAGE-BY-PAGE QUIZ NAVIGATION
+const steps = Array.from(form.querySelectorAll("fieldset"));
+let currentStep = 0;
+const backBtn = qs("#backBtn");
+const nextBtn = qs("#nextBtn");
+const progress = qs("#progress");
+
+function showStep(i) {
+    currentStep = i;
+    steps.forEach((s, idx) => s.style.display = idx === i ? "block" : "none");
+    backBtn.style.display = i === 0 ? "none" : "inline-block";
+    nextBtn.style.display = i === steps.length - 1 ? "none" : "inline-block";
+    qs("#submitBtn").style.display = i === steps.length - 1 ? "inline-block" : "none";
+    setText("statusText", "");
+    if (progress) progress.textContent = `Question ${i + 1} of ${steps.length}`;
+    lightweightCheck();
+}
+
+backBtn.addEventListener("click", () => showStep(Math.max(0, currentStep - 1)));
+nextBtn.addEventListener("click", () => showStep(Math.min(steps.length - 1, currentStep + 1)));
+
+// show first step
+if (steps.length > 0) showStep(0);
