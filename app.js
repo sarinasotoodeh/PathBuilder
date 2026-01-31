@@ -132,8 +132,9 @@ function populateFormFromStorage() {
     }
 }
 
-// populate on load so Edit answers works
-populateFormFromStorage();
+// populate on load only when navigated from the summary Edit button
+const _params = new URLSearchParams(window.location.search);
+if (_params.get("edit") === "1") populateFormFromStorage();
 
 form.addEventListener("input", lightweightCheck);
 form.addEventListener("change", lightweightCheck);

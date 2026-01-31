@@ -71,7 +71,10 @@ if (profileContent && userProfile) {
   `;
 
   const editBtn = document.getElementById("editAnswers");
-  if (editBtn) editBtn.addEventListener("click", () => (window.location.href = "index.html"));
+  if (editBtn) editBtn.addEventListener("click", () => {
+    // Navigate to intake with an edit flag so the form will be populated
+    window.location.href = "index.html?edit=1";
+  });
 }
 
 function selectPath(key) {
