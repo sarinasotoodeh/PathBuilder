@@ -81,12 +81,22 @@ function selectPath(key) {
     document.querySelector(`.mapIcon[data-path="${key}"]`).classList.add("active");
     
     const p = pathways[key];
+    const detailPageMap = {
+        uni: "uni-detail.html",
+        college: "college-detail.html",
+        bootcamp: "bootcamp-detail.html",
+        apprenticeship: "apprenticeship-detail.html",
+        military: "military-detail.html"
+    };
     mapInfo.innerHTML = `
     <h2>${p.icon} ${p.title}</h2>
     <p>${p.why}</p>
     <p><strong>Time:</strong> ${p.time}</p>
     <p><strong>Cost:</strong> ${p.cost}</p>
     <p><strong>Learning style:</strong> ${p.style}</p>
+    <div style="margin-top:16px;">
+        <a href="${detailPageMap[key]}" style="display:inline-block;padding:10px 16px;background:#4f46e5;color:white;text-decoration:none;border-radius:8px;font-weight:600;">More information →</a>
+    </div>
     `;
 }
 
