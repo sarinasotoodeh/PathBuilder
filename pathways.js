@@ -54,6 +54,26 @@ const pathways = {
 const mapInfo = document.getElementById("mapInfo");
 const cards = document.getElementById("cards");
 
+// Render a concise, readable summary of the saved profile
+const profileContent = document.getElementById("profileContent");
+if (profileContent && userProfile) {
+  const fmtList = (arr) => (arr && arr.length ? arr.join(", ") : "—");
+  const created = userProfile.createdAt ? new Date(userProfile.createdAt).toLocaleString() : "";
+  profileContent.innerHTML = `
+    <div><strong>Career goal:</strong> ${userProfile.careerGoal || '—'}</div>
+    <div><strong>Year:</strong> ${userProfile.hsYear ? 'Grade ' + userProfile.hsYear : '—'}</div>
+    <div><strong>Subjects:</strong> ${fmtList(userProfile.subjects)}</div>
+    <div><strong>Interests:</strong> ${fmtList(userProfile.interests)}</div>
+    <div><strong>Learning style:</strong> ${userProfile.learningStyle || '—'}</div>
+    <div><strong>Average grade:</strong> ${userProfile.avgGrade ?? '—'}</div>
+    <div><strong>Finance preference:</strong> ${userProfile.financePref || '—'}</div>
+    <div style="color:rgba(180,180,200,0.9);font-size:0.9rem;margin-top:8px;">Saved: ${created}</div>
+  `;
+
+  const editBtn = document.getElementById("editAnswers");
+  if (editBtn) editBtn.addEventListener("click", () => (window.location.href = "index.html"));
+}
+
 function selectPath(key) {
     document.querySelectorAll(".mapIcon").forEach(b => b.classList.remove("active"));
     document.querySelector(`.mapIcon[data-path="${key}"]`).classList.add("active");
