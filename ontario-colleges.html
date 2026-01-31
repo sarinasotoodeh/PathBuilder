@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ontario Colleges & Programs</title>
+    <link rel="stylesheet" href="pathways.css">
+    <style>
+        .detail-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 0.75rem 1rem;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-btn:hover {
+            opacity: 0.9;
+        }
+        .search-bar {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            margin-bottom: 2rem;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .colleges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .college-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .college-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        .college-logo {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            font-weight: bold;
+        }
+        .college-card-content {
+            padding: 1.5rem;
+        }
+        .college-card h3 {
+            margin: 0 0 0.5rem 0;
+            color: #0f172a;
+            font-size: 1.2rem;
+        }
+        .college-location {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .programs {
+            margin-bottom: 1rem;
+        }
+        .programs-title {
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .program-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .program-list li {
+            padding: 0.35rem 0;
+            font-size: 0.9rem;
+            color: #334155;
+        }
+        .program-list li::before {
+            content: "→ ";
+            color: #10b981;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        .college-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #10b981;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .college-link:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🏫 Ontario Colleges & Programs</h1>
+        <p>Explore Ontario's premier colleges with practical, career-focused programs.</p>
+    </header>
+
+    <div class="detail-container">
+        <button class="back-btn" onclick="window.history.back()">← Back</button>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search colleges or programs..." />
+        </div>
+
+        <div class="colleges-grid" id="collegesGrid">
+            <!-- College cards will be inserted here -->
+        </div>
+    </div>
+
+    <script>
+        const colleges = [
+            {
+                name: "Seneca Polytechnic",
+                location: "Toronto",
+                logo: "Seneca",
+                website: "https://www.senecapolytechnic.ca",
+                programs: ["Computer Science", "Engineering", "Business", "Health Sciences", "Hospitality"]
+            },
+            {
+                name: "Centennial College",
+                location: "Toronto",
+                logo: "CC",
+                website: "https://www.centennialcollege.ca",
+                programs: ["Engineering Technology", "Business", "Health & Wellness", "Information Technology", "Early Childhood"]
+            },
+            {
+                name: "George Brown College",
+                location: "Toronto",
+                logo: "GB",
+                website: "https://www.georgebrown.ca",
+                programs: ["Nursing", "Culinary", "Hospitality", "Business", "Construction Management"]
+            },
+            {
+                name: "Humber College",
+                location: "Toronto",
+                logo: "Humber",
+                website: "https://www.humber.ca",
+                programs: ["Business", "Health Sciences", "Media & Design", "Hospitality", "Engineering"]
+            },
+            {
+                name: "Sheridan College",
+                location: "Oakville/Brampton",
+                logo: "Sheridan",
+                website: "https://www.sheridancollege.ca",
+                programs: ["Animation", "Computer Science", "Business", "Engineering", "Health & Wellness"]
+            },
+            {
+                name: "Mohawk College",
+                location: "Hamilton",
+                logo: "Mohawk",
+                website: "https://www.mohawkcollege.ca",
+                programs: ["Engineering", "Health Sciences", "Business", "Skilled Trades", "Hospitality"]
+            },
+            {
+                name: "Durham College",
+                location: "Oshawa",
+                logo: "DC",
+                website: "https://www.durhamcollege.ca",
+                programs: ["Engineering Technology", "Business", "Health Sciences", "Information Technology", "Automotive"]
+            },
+            {
+                name: "St. Lawrence College",
+                location: "Kingston",
+                logo: "SLC",
+                website: "https://www.stlawrencecollege.ca",
+                programs: ["Business", "Engineering", "Health Sciences", "Hospitality", "Skilled Trades"]
+            },
+            {
+                name: "Fanshawe College",
+                location: "London",
+                logo: "Fanshawe",
+                website: "https://www.fanshawec.ca",
+                programs: ["Engineering", "Business", "Health Sciences", "Media & Design", "Trades"]
+            },
+            {
+                name: "Lambton College",
+                location: "Sarnia",
+                logo: "Lambton",
+                website: "https://www.lambton.on.ca",
+                programs: ["Engineering", "Business", "Health & Wellness", "Media", "Skilled Trades"]
+            },
+            {
+                name: "Cambrian College",
+                location: "Sudbury",
+                logo: "Cambrian",
+                website: "https://www.cambriancollege.ca",
+                programs: ["Mining Engineering", "Business", "Health Sciences", "Environmental Studies", "Forestry"]
+            },
+            {
+                name: "Northern College",
+                location: "Timmins/Muskoka",
+                logo: "NC",
+                website: "https://www.northernc.on.ca",
+                programs: ["Business", "Health Sciences", "Environmental Studies", "Forestry", "Trades"]
+            }
+        ];
+
+        function renderColleges(cols) {
+            const grid = document.getElementById("collegesGrid");
+            grid.innerHTML = "";
+            cols.forEach(college => {
+                const card = document.createElement("div");
+                card.className = "college-card";
+                card.innerHTML = `
+                    <div class="college-logo">${college.logo}</div>
+                    <div class="college-card-content">
+                        <h3>${college.name}</h3>
+                        <div class="college-location">📍 ${college.location}</div>
+                        <div class="programs">
+                            <div class="programs-title">Popular Programs</div>
+                            <ul class="program-list">
+                                ${college.programs.slice(0, 4).map(p => `<li>${p}</li>`).join("")}
+                            </ul>
+                        </div>
+                        <a href="${college.website}" target="_blank" class="college-link">Visit Website →</a>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        document.getElementById("searchInput").addEventListener("input", (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = colleges.filter(college =>
+                college.name.toLowerCase().includes(query) ||
+                college.location.toLowerCase().includes(query) ||
+                college.programs.some(p => p.toLowerCase().includes(query))
+            );
+            renderColleges(filtered);
+        });
+
+        // Initial render
+        renderColleges(colleges);
+    </script>
+</body>
+</html>
