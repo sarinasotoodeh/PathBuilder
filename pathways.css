@@ -206,6 +206,13 @@ main {
   justify-content: flex-start;
 }
 
+.pathNode span {
+  white-space: nowrap;
+  display: block;
+  width:  80%;
+  text-align: center;
+}
+
 .pathNode:hover {
   transform: translateX(-50%) translateY(-1px);
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
