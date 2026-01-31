@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Pathways</title>
+    <link rel="stylesheet" href="pathways.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Career Goal: Software Developer</h1>
+        <p>There’s more than one way to get there — these are paths that could work for you.</p>
+    </header>
+
+    <main>
+
+        <!-- ===== Map + Details ===== -->
+        <section id="mapLayout">
+            <div id="pathMap">
+                <div class="centerNode">You</div>
+
+                <button class="mapIcon uni" data-path="uni">🎓</button>
+                <button class="mapIcon college" data-path="college">🏫</button>
+                <button class="mapIcon bootcamp" data-path="bootcamp">💻</button>
+                <button class="mapIcon apprenticeship" data-path="apprenticeship">🛠️</button>
+                <button class="mapIcon military" data-path="military">🎖️</button>
+            </div>
+
+            <div id="mapInfo">
+                <h2>Select a pathway</h2>
+                <p>Click an icon on the map to see why it might work for you.</p>
+            </div>
+        </section>
+
+        <!-- ===== Cards ===== -->
+        <section class="cards" id="cards"></section>
+
+    </main>
+
+    <script src="pathways.js"></script>
+
+
+
+</body>
+
+</html>
