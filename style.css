@@ -1,3 +1,6 @@
+html, body {
+  min-height: 100%;
+}
 :root {
     --bg: #0b1020;
     --card: #121a33;
@@ -85,8 +88,9 @@ select {
     border-radius: 12px;
     border: 1px solid var(--border);
     background: rgba(0, 0, 0, 0.25);
-    color: var(--text);
+    color: rgba(255, 255, 255, 0.25);
     outline: none;
+    
 }
 
 input[type="number"]::-webkit-outer-spin-button,
