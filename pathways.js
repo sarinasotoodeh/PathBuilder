@@ -100,4 +100,85 @@ if (userProfile.avgGrade >= 85) {
 if (userProfile.financePref === "low") {
   bestPath = "apprenticeship";
 }
-selectPath(bestPath);
+// ---------- SMART SCORING ENGINE ----------
+
+// 1. Initialize scores + reasons
+let scores = {
+  uni: 0,
+  college: 0,
+  bootcamp: 0,
+  apprenticeship: 0,
+  military: 0
+};
+
+let reasons = {
+  uni: [],
+  college: [],
+  bootcamp: [],
+  apprenticeship: [],
+  military: []
+};
+
+// 2. Grades
+if (userProfile.avgGrade >= 85) {
+  scores.uni += 3;
+  reasons.uni.push("Strong academic grades");
+}
+if (userProfile.avgGrade >= 70) {
+  scores.college += 2;
+  reasons.college.push("Solid grades for applied programs");
+}
+if (userProfile.avgGrade < 70) {
+  scores.apprenticeship += 2;
+  reasons.apprenticeship.push("Grades suggest hands-on learning may be better");
+}
+
+// 3. Learning style
+if (userProfile.learningStyle.toLowerCase().includes("hands-on")) {
+  scores.bootcamp += 3;
+  scores.apprenticeship += 3;
+  reasons.bootcamp.push("Prefers hands-on learning");
+  reasons.apprenticeship.push("Prefers hands-on learning");
+}
+if (userProfile.learningStyle.toLowerCase().includes("academic")) {
+  scores.uni += 2;
+  reasons.uni.push("Comfortable with academic learning");
+}
+
+// 4. Financial situation
+if (userProfile.financePref.toLowerCase().includes("low")) {
+  scores.apprenticeship += 3;
+  scores.military += 3;
+  scores.uni -= 2;
+  reasons.apprenticeship.push("Lower cost / earn while learning");
+  reasons.military.push("Paid training and education benefits");
+}
+
+// 5. Interests
+if (userProfile.interests.includes("Technology")) {
+  scores.uni += 1;
+  scores.bootcamp += 2;
+  reasons.bootcamp.push("Interest in technology-focused skills");
+}
+if (userProfile.interests.includes("Creativity")) {
+  scores.college += 1;
+  scores.bootcamp += 1;
+}
+
+// 6. Rank pathways
+const rankedPaths = Object.entries(scores)
+  .sort((a, b) => b[1] - a[1]);
+
+// 7. Apply ranking + reasons to UI
+rankedPaths.forEach(([key], index) => {
+  if (index === 0) pathways[key].tag = "Best match";
+  if (index === 1) pathways[key].tag = "Strong alternative";
+  if (index === 2) pathways[key].tag = "Another option";
+
+  pathways[key].why = reasons[key].length
+    ? reasons[key].join(" • ")
+    : pathways[key].why;
+});
+
+// 8. Auto-select best path on load
+selectPath(rankedPaths[0][0]);
