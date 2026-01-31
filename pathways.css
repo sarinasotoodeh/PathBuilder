@@ -200,7 +200,7 @@ main {
 /* Pathway nodes (middle column) */
 .pathNode {
   /* moved left so there is a clear gap to the destination */
-  left: 56%;
+  left: 50%;
   transform: translateX(-50%);
   width: 250px;
   justify-content: flex-start;
