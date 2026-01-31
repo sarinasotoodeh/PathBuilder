@@ -40,13 +40,13 @@ const pathways = {
     cost: "Low",
     style: "Hands-on"
   },
-  workplace: {
-    icon: "💼",
-    title: "Workplace Entry",
-    why: "Start working directly in your field with on-the-job training.",
+  military: {
+    icon: "🎖️",
+    title: "Military",
+    why: "Structured training with paid education options.",
     time: "Varies",
     cost: "Low",
-    style: "Practical"
+    style: "Structured"
   }
 };
 
@@ -55,7 +55,7 @@ const detailPageMap = {
   college: "college-detail.html",
   bootcamp: "bootcamp-detail.html",
   apprenticeship: "apprenticeship-detail.html",
-  workplace: "workplace-detail.html"
+  military: "military-detail.html"
 };
 
 // ===== DOM references =====
