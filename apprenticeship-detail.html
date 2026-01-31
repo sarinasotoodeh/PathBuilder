@@ -6,42 +6,107 @@
     <title>Apprenticeship</title>
     <link rel="stylesheet" href="pathways.css">
     <style>
+        * {
+            transition: all 0.3s ease;
+        }
+
         .detail-container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 2rem;
         }
+
         .back-btn {
             display: inline-block;
-            margin-bottom: 1.5rem;
-            padding: 0.75rem 1rem;
-            background: #4f46e5;
+            margin-bottom: 2rem;
+            padding: 0.85rem 1.5rem;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             text-decoration: none;
             font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
+
         .back-btn:hover {
-            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
+
         .detail-section {
             background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid #ddd;
-            margin-bottom: 1.5rem;
+            padding: 2.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            border: 2px solid transparent;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+            position: relative;
+            overflow: hidden;
         }
+
+        .detail-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f59e0b, #d97706, #dc2626);
+            background-size: 200% 100%;
+        }
+
+        .detail-section:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 8px 20px rgba(0, 0, 0, 0.06);
+            border-color: rgba(245, 158, 11, 0.1);
+        }
+
         .detail-section h2 {
-            color: #4f46e5;
+            color: #2d3748;
             margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.65rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        ul, ol {
+
+        .detail-section p {
+            color: #4a5568;
+            font-size: 1rem;
             line-height: 1.8;
+            margin-bottom: 1rem;
         }
+
+        .detail-section strong {
+            color: #2d3748;
+            font-weight: 700;
+        }
+
+        ul, ol {
+            line-height: 2;
+            margin-bottom: 1rem;
+        }
+
         li {
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.9rem;
+            color: #4a5568;
+            font-size: 1rem;
+            padding-left: 0.5rem;
+        }
+
+        .detail-section ul li::marker {
+            color: #f59e0b;
+            font-weight: 600;
+        }
+
+        .detail-section ol li::marker {
+            color: #d97706;
+            font-weight: 600;
         }
     </style>
 </head>
@@ -54,7 +119,15 @@
     <div class="detail-container">
         <button class="back-btn" onclick="window.history.back()">← Back to Pathways</button>
 
-        <div class="detail-section">
+        <div class="detail-section" style="background: linear-gradient(135deg, #fef3c7 0%, #ffffff 100%); border: 2px solid #f59e0b;">
+            <h2 style="background: linear-gradient(135deg, #f59e0b, #dc2626); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">🔧 Explore Ontario Apprenticeships</h2>
+            <p style="color: #555; margin-bottom: 1.5rem;">Ready to start your apprenticeship journey? Discover various trades in Ontario with details on how to find opportunities, who to contact, and how to apply.</p>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <a href="ontario-apprenticeships.html" style="display: inline-block; padding: 0.9rem 2rem; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; text-decoration: none; border-radius: 50px; font-weight: 600; font-size: 0.95rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+                    Browse Apprenticeships →
+                </a>
+            </div>
+        </div>
             <h2>Overview</h2>
             <p>An apprenticeship is a structured pathway combining paid work experience with formal education. You work for an employer in a skilled trade, earning wages while learning from experienced professionals. This "learn while you earn" model is popular in trades, construction, electrical work, plumbing, and other hands-on fields.</p>
         </div>

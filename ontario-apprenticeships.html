@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ontario Apprenticeships</title>
+    <link rel="stylesheet" href="pathways.css">
+    <style>
+        * {
+            transition: all 0.3s ease;
+        }
+
+        .detail-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding: 0.85rem 1.5rem;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .search-bar {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 2px solid transparent;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.65rem 1.25rem;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .filter-btn:hover {
+            background: #fef3c7;
+            border-color: #f59e0b;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border-color: #f59e0b;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .apprenticeships-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .apprenticeship-card {
+            background: white;
+            border: 2px solid transparent;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+            position: relative;
+        }
+
+        .apprenticeship-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+            z-index: 1;
+        }
+
+        .apprenticeship-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 8px 20px rgba(0, 0, 0, 0.06);
+            border-color: rgba(245, 158, 11, 0.1);
+        }
+
+        .apprenticeship-header {
+            background: linear-gradient(135deg, #f59e0b 0%, #dc2626 100%);
+            padding: 1.5rem;
+            color: white;
+        }
+
+        .apprenticeship-header h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .apprenticeship-duration {
+            font-size: 0.9rem;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .apprenticeship-wage {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        .apprenticeship-content {
+            padding: 1.5rem;
+        }
+
+        .apprenticeship-section {
+            margin-bottom: 1.25rem;
+        }
+
+        .apprenticeship-section-title {
+            font-weight: 700;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .info-list li {
+            padding: 0.35rem 0;
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+
+        .info-list li::before {
+            content: "• ";
+            color: #f59e0b;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .apply-btn {
+            display: inline-block;
+            padding: 0.65rem 1.25rem;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: none;
+            cursor: pointer;
+        }
+
+        .apply-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🔧 Ontario Apprenticeships</h1>
+        <p>Discover skilled trades and apprenticeship opportunities across Ontario with details on how to apply and get started.</p>
+    </header>
+
+    <div class="detail-container">
+        <button class="back-btn" onclick="window.history.back()">← Back</button>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search apprenticeships by trade name..." />
+        </div>
+
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Apprenticeships</button>
+            <button class="filter-btn" data-filter="self-employed">Self-Employment</button>
+            <button class="filter-btn" data-filter="high-earning">High Earning Potential</button>
+            <button class="filter-btn" data-filter="quick-entry">Quick Entry</button>
+            <button class="filter-btn" data-filter="specialization">Specialization</button>
+        </div>
+
+        <div class="apprenticeships-grid" id="apprenticeshipsGrid">
+            <!-- Apprenticeship cards will be inserted here -->
+        </div>
+    </div>
+
+    <script>
+        const apprenticeships = [
+            {
+                name: "Electrician",
+                careerGoal: "self-employed",
+                duration: "4 years",
+                wage: "$50,000 - $85,000",
+                careerPathTitle: "Path to Self-Employment",
+                careerPathDesc: "Electricians have one of the highest self-employment rates in trades. After completing your apprenticeship and journeyperson license, you can easily establish your own electrical business. High demand + specialized skills = consistent client base and strong profit margins.",
+                howToFind: ["Contact local electrician unions (e.g., Local 58, 353)", "Check pre-apprenticeship programs at local colleges", "Network with licensed electricians", "Visit apprenticeship.on.ca for registered programs"],
+                whoToContact: ["Electrical Contractors Association of Ontario (ECAO)", "International Brotherhood of Electrical Workers (IBEW)", "Apprenticeship Branch, Ministry of Labour"],
+                howToApply: ["Pass electrical aptitude test", "High school diploma or equivalent required", "Complete application with IBEW local", "Interview with apprenticeship committee", "Secure employer sponsorship"],
+                requirements: "Grade 10 or equivalent, math skills, attention to detail"
+            },
+            {
+                name: "Plumber",
+                careerGoal: "self-employed",
+                duration: "5 years",
+                wage: "$48,000 - $80,000",
+                careerPathTitle: "Path to Self-Employment",
+                careerPathDesc: "Plumbing is highly sought-after with year-round demand. After certification, you can build your own plumbing business with minimal startup costs. Plumbers often transition to self-employment successfully, charging premium rates for expertise and reliability.",
+                howToFind: ["Connect with Plumbers Guild of Ontario", "Apply to licensed plumbing companies", "Contact local technical colleges for pre-apprenticeship", "Search apprenticeship.on.ca database"],
+                whoToContact: ["Plumbers Guild of Ontario", "Local plumbing contractors", "Mechanical Contractors Association of Ontario", "Ontario College of Trades"],
+                howToApply: ["Complete high school or equivalent", "Take plumbing math assessment", "Apply to plumbing company", "Pass interview and aptitude test", "Register with Ontario College of Trades"],
+                requirements: "Grade 10, physical capability, problem-solving skills"
+            },
+            {
+                name: "Carpenter",
+                careerGoal: "self-employed",
+                duration: "3-4 years",
+                wage: "$45,000 - $75,000",
+                careerPathTitle: "Path to Self-Employment & Business Ownership",
+                careerPathDesc: "Carpenters frequently become independent contractors, building custom homes, renovations, or specialized projects. Lower startup costs compared to other trades, and your expertise directly translates to higher billable rates. Many progress to general contractor roles.",
+                howToFind: ["Join local carpenter unions (e.g., United Brotherhood of Carpenters)", "Contact construction companies", "Attend pre-apprenticeship programs", "Check carpentry associations in Ontario"],
+                whoToContact: ["United Brotherhood of Carpenters Local 27", "Construction Contractors Association of Ontario", "Ontario College of Trades", "Local builders and contractors"],
+                howToApply: ["Apply to construction company", "Pass aptitude test", "Complete interview process", "Register apprenticeship with College of Trades", "Complete classroom and on-the-job training"],
+                requirements: "High school diploma, math skills, physical fitness"
+            },
+            {
+                name: "HVAC Technician",
+                careerGoal: "high-earning",
+                duration: "4-5 years",
+                wage: "$52,000 - $88,000",
+                careerPathTitle: "Path to High Earning Potential",
+                careerPathDesc: "HVAC is one of the highest-paying trades due to specialized knowledge and year-round demand. Service calls and emergency repairs command premium rates. After apprenticeship, experienced techs earn $70k-$110k+, with opportunities for business ownership or management positions.",
+                howToFind: ["Contact HVAC contractors in your area", "Attend technical college pre-apprenticeship programs", "Join mechanical contractors association", "Search Ontario apprenticeship database"],
+                whoToContact: ["Mechanical Contractors Association of Ontario (MCAO)", "Sheet Metal Workers' Local 30", "HVAC contractors in your region", "Ministry of Labour Apprenticeship Branch"],
+                howToApply: ["High school diploma required", "Aptitude testing in math and science", "Apply to HVAC company", "Interview and assessment", "Complete formal registration"],
+                requirements: "Grade 10, mechanical aptitude, problem-solving skills"
+            },
+            {
+                name: "Automotive Technician",
+                careerGoal: "quick-entry",
+                duration: "3-4 years",
+                wage: "$42,000 - $72,000",
+                careerPathTitle: "Quick Entry to Stable Career",
+                careerPathDesc: "One of the shorter apprenticeships available! Get certified and working faster than most trades. High demand for technicians means job security immediately after apprenticeship. Great for those looking to start earning quickly while gaining valuable diagnostic and technical skills.",
+                howToFind: ["Apply to local auto dealerships and repair shops", "Contact Automotive Industries Association", "Attend pre-apprenticeship at community colleges", "Check apprenticeship.on.ca"],
+                whoToContact: ["Automotive Industries Association of Canada", "Local automotive repair shops", "Canadian Automotive Repair and Services Association", "Technical colleges offering automotive programs"],
+                howToApply: ["Grade 10 or equivalent needed", "Pass automotive knowledge test", "Apply to dealership or repair shop", "Interview and hands-on assessment", "Register apprenticeship officially"],
+                requirements: "High school equivalent, mechanical interest, manual dexterity"
+            },
+            {
+                name: "Welder",
+                careerGoal: "high-earning",
+                duration: "3 years",
+                wage: "$48,000 - $80,000",
+                careerPathTitle: "Path to Specialized High-Paying Work",
+                careerPathDesc: "Welders work on critical infrastructure, pipelines, and specialized projects commanding premium wages. Advanced certifications (underwater welding, pipeline welding) lead to $100k+ earnings. Your skills are essential to construction and manufacturing sectors.",
+                howToFind: ["Contact welding companies and fabricators", "Attend trades schools with welding programs", "Network with welding unions", "Check apprenticeship.on.ca for openings"],
+                whoToContact: ["International Brotherhood of Boilermakers Local 193", "Welding Institute of Canada", "Metal fabrication companies", "Ontario College of Trades"],
+                howToApply: ["Complete high school or equivalent", "Welding aptitude assessment", "Apply to welding company", "Interview and skills test", "Register with Ontario College of Trades"],
+                requirements: "Grade 10, steady hands, attention to detail, physical strength"
+            },
+            {
+                name: "Sheet Metal Worker",
+                careerGoal: "specialization",
+                duration: "4-5 years",
+                wage: "$50,000 - $85,000",
+                careerPathTitle: "Specialized Technical Skills",
+                careerPathDesc: "Sheet metal workers develop highly specialized skills used in HVAC, aerospace, and manufacturing. This trade offers opportunities for advanced certifications and specializations. Progress to supervisor or technical expert roles with significant earning increases and job stability.",
+                howToFind: ["Join Sheet Metal Workers' unions", "Contact sheet metal fabrication companies", "Attend pre-apprenticeship programs", "Search apprenticeship database"],
+                whoToContact: ["Sheet Metal Workers' Local 30", "Mechanical Contractors Association of Ontario", "Sheet metal fabrication shops", "Ministry of Labour"],
+                howToApply: ["High school diploma required", "Complete aptitude test", "Apply to registered company", "Pass interview and assessment", "Official registration and training"],
+                requirements: "Grade 10, mechanical skills, mathematical ability"
+            },
+            {
+                name: "Appliance Repair Technician",
+                careerGoal: "quick-entry",
+                duration: "2-3 years",
+                wage: "$40,000 - $68,000",
+                careerPathTitle: "Fastest Entry to Employment",
+                careerPathDesc: "One of the quickest apprenticeships available (2-3 years)! Start earning quickly with growing demand for repair services. After certification, transition to self-employment easily by offering repair services from home. Perfect for those wanting immediate income and flexibility.",
+                howToFind: ["Apply to appliance repair companies", "Contact appliance manufacturers' service centers", "Check technical college apprenticeships", "Search online job boards for apprenticeships"],
+                whoToContact: ["Major appliance manufacturers (LG, Samsung, GE, Whirlpool)", "Appliance repair service companies", "Ontario College of Trades", "Technical institutes"],
+                howToApply: ["Grade 10 minimum required", "Technical aptitude test", "Apply to service company", "Interview and troubleshooting assessment", "Complete registration and training"],
+                requirements: "High school or equivalent, problem-solving, electrical knowledge helpful"
+            },
+            {
+                name: "Construction Project Manager",
+                careerGoal: "high-earning",
+                duration: "4 years + experience",
+                wage: "$60,000 - $110,000",
+                careerPathTitle: "Path to Management & Leadership",
+                careerPathDesc: "Start with a skilled trade apprenticeship (carpenter, ironworker, etc.), then transition to project management. Construction managers oversee projects worth millions, earning significantly more. This apprenticeship pathway leads to leadership roles and executive positions in the construction industry.",
+                howToFind: ["Apprentice in a skilled trade first", "Work 2-3 years as journeyperson", "Pursue construction management certificate", "Network with construction firms"],
+                whoToContact: ["Construction Contractors Association of Ontario", "Project Management Institute Canada", "Construction companies and general contractors"],
+                howToApply: ["Complete skilled trade apprenticeship first", "Gain on-site experience", "Pursue management certifications", "Apply to management-track positions"],
+                requirements: "Skilled trade certification, leadership skills, business understanding"
+            },
+            {
+                name: "Refrigeration Technician",
+                careerGoal: "specialization",
+                duration: "4-5 years",
+                wage: "$52,000 - $90,000",
+                careerPathTitle: "Specialized Technology & Innovation",
+                careerPathDesc: "Refrigeration technicians work with advanced cooling systems in commercial, industrial, and specialized environments. High demand + technical specialization = excellent earning potential. Opportunities to work on cutting-edge sustainable refrigeration systems and certifications lead to premium wages.",
+                howToFind: ["Contact refrigeration companies", "Mechanical contractors association members", "Check pre-apprenticeship programs", "Search apprenticeship.on.ca"],
+                whoToContact: ["Mechanical Contractors Association of Ontario", "Refrigeration Service Engineers Society (RSES)", "Commercial refrigeration companies"],
+                howToApply: ["High school diploma or equivalent", "Pass technical aptitude test", "Apply to refrigeration company", "Complete interview and assessment"],
+                requirements: "Grade 10, mechanical aptitude, problem-solving abilities"
+            }
+        ];
+
+        function renderApprenticeships(apps) {
+            const grid = document.getElementById("apprenticeshipsGrid");
+            grid.innerHTML = "";
+            apps.forEach(app => {
+                const card = document.createElement("div");
+                card.className = "apprenticeship-card";
+                card.innerHTML = `
+                    <div class="apprenticeship-header">
+                        <h3>${app.name}</h3>
+                        <div class="apprenticeship-duration">⏱️ ${app.duration}</div>
+                        <div class="apprenticeship-wage">${app.wage}</div>
+                    </div>
+                    <div class="apprenticeship-content">
+                        <div class="apprenticeship-section">
+                            <div class="apprenticeship-section-title">💼 ${app.careerPathTitle}</div>
+                            <p style="color: #4a5568; font-size: 0.9rem; margin: 0; line-height: 1.6;">${app.careerPathDesc}</p>
+                        </div>
+
+                        <div class="apprenticeship-section">
+                            <div class="apprenticeship-section-title">How to Find</div>
+                            <ul class="info-list">
+                                ${app.howToFind.map(item => `<li>${item}</li>`).join("")}
+                            </ul>
+                        </div>
+
+                        <div class="apprenticeship-section">
+                            <div class="apprenticeship-section-title">Who to Contact</div>
+                            <ul class="info-list">
+                                ${app.whoToContact.map(item => `<li>${item}</li>`).join("")}
+                            </ul>
+                        </div>
+
+                        <div class="apprenticeship-section">
+                            <div class="apprenticeship-section-title">How to Apply</div>
+                            <ul class="info-list">
+                                ${app.howToApply.map(item => `<li>${item}</li>`).join("")}
+                            </ul>
+                        </div>
+
+                        <div class="apprenticeship-section">
+                            <div class="apprenticeship-section-title">Requirements</div>
+                            <p style="color: #4a5568; font-size: 0.9rem; margin: 0;">${app.requirements}</p>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        document.getElementById("searchInput").addEventListener("input", (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = apprenticeships.filter(app =>
+                app.name.toLowerCase().includes(query)
+            );
+            renderApprenticeships(filtered);
+        });
+
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+                e.target.classList.add("active");
+                const filter = e.target.dataset.filter;
+                
+                let filtered = apprenticeships;
+                if (filter !== "all") {
+                    filtered = apprenticeships.filter(app => app.careerGoal === filter);
+                }
+                renderApprenticeships(filtered);
+            });
+        });
+
+        // Initial render
+        renderApprenticeships(apprenticeships);
+    </script>
+</body>
+</html>
