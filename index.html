@@ -20,6 +20,12 @@
 
     <main class="card">
       <form id="intakeForm" novalidate>
+        <fieldset>
+          <legend>About you</legend>
+          <label for="userName">Your name</label>
+          <input id="userName" name="userName" type="text" placeholder="e.g., Avery" maxlength="15" required />
+          <p class="error" id="nameError" role="alert" aria-live="polite"></p>
+        </fieldset>
         <!-- Career + Grade -->
         <fieldset>
           <legend>Basics</legend>
@@ -123,10 +129,10 @@
               <input
                 id="avgGrade"
                 name="avgGrade"
-                type="number"
+                type="text"
                 inputmode="numeric"
-                min="0"
-                max="100"
+                pattern="\d{1,3}"
+                maxlength="3"
                 placeholder="e.g., 82"
                 aria-describedby="gradeHint"
                 required

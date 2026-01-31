@@ -24,12 +24,14 @@ function isNumberInRange(val, min, max) {
 // ---------- Validation ----------
 function validate() {
     let ok = true;
+    const name = qs("#userName").value.trim();
+    setText("nameError", "");
 
     const careerGoal = qs("#careerGoal").value;
     const hsYear = qs("#hsYear").value;
     const interests = getCheckedValues("interests");
     const learningStyle = getRadioValue("learningStyle");
-    const avgGrade = qs("#avgGrade").value;
+    const avgGrade = qs("#avgGrade").value.trim();
     const financePref = getRadioValue("financePref");
 
     setText("basicsError", "");
@@ -44,6 +46,19 @@ function validate() {
         setText("basicsError", "Please select a career goal and year in high school.");
     }
 
+    if (!name) {
+        ok = false;
+        setText("nameError", "Please enter your name.");
+    }
+    else if (name.length > 15) {
+        ok = false;
+        setText("nameError", "Name must be 15 characters or fewer.");
+    }
+    else if (name.length > 15) {
+        ok = false;
+        setText("nameError", "Name must be 15 characters or fewer.");
+    }
+
     if (interests.length < 1) {
         ok = false;
         setText("interestsError", "Please choose at least one interest.");
@@ -54,7 +69,8 @@ function validate() {
         setText("learningError", "Please choose a learning style.");
     }
 
-    if (!isNumberInRange(avgGrade, 0, 100)) {
+    // grade must be 1-3 digits and between 0 and 100
+    if (!/^[0-9]{1,3}$/.test(avgGrade) || !isNumberInRange(avgGrade, 0, 100)) {
         ok = false;
         setText("gradeError", "Enter a number between 0 and 100.");
     }
@@ -69,12 +85,15 @@ function validate() {
 
 // ---------- Lightweight check (for enabling submit) ----------
 function lightweightCheck() {
+    const nameVal = qs("#userName").value.trim();
+    const gradeVal = qs("#avgGrade").value.trim();
     const ok =
+        nameVal && nameVal.length <= 15 &&
         qs("#careerGoal").value &&
         qs("#hsYear").value &&
         getCheckedValues("interests").length > 0 &&
         getRadioValue("learningStyle") &&
-        isNumberInRange(qs("#avgGrade").value, 0, 100) &&
+        /^[0-9]{1,3}$/.test(gradeVal) && isNumberInRange(gradeVal, 0, 100) &&
         getRadioValue("financePref");
 
     qs("#submitBtn").disabled = !ok;
@@ -106,6 +125,7 @@ function populateFormFromStorage() {
         if (!raw) return;
         const stored = JSON.parse(raw);
 
+        if (stored.name) qs("#userName").value = stored.name;
         if (stored.careerGoal) qs("#careerGoal").value = stored.careerGoal;
         if (stored.hsYear !== undefined && stored.hsYear !== null) qs("#hsYear").value = String(stored.hsYear);
         if (stored.avgGrade !== undefined && stored.avgGrade !== null) qs("#avgGrade").value = String(stored.avgGrade);
@@ -139,12 +159,24 @@ if (_params.get("edit") === "1") populateFormFromStorage();
 form.addEventListener("input", lightweightCheck);
 form.addEventListener("change", lightweightCheck);
 
+
+// enforce numeric-only input for grade field and cap at 3 chars
+const gradeInput = qs("#avgGrade");
+if (gradeInput) {
+    gradeInput.addEventListener('input', (e) => {
+        const cleaned = e.target.value.replace(/\D/g, '').slice(0, 3);
+        if (cleaned !== e.target.value) e.target.value = cleaned;
+        lightweightCheck();
+    });
+}
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
   if (!validate()) return;
 
   const userProfile = {
+        name: qs("#userName").value.trim(),
     careerGoal: qs("#careerGoal").value,
     hsYear: Number(qs("#hsYear").value),
     subjects: getCheckedValues("subjects"),
@@ -158,15 +190,15 @@ form.addEventListener("submit", (e) => {
   // SAVE
   localStorage.setItem("userProfile", JSON.stringify(userProfile));
 
-  // GO TO PAGE 2
-  window.location.href = "pathways.html";
+    // GO TO PREREQUISITES PAGE
+    window.location.href = "prerequisites.html";
 });
 
 
 resetBtn.addEventListener("click", () => {
     form.reset();
     resetFormState();
-    qs("#careerGoal").focus();
+    qs("#userName").focus();
     // go back to first step when resetting
     if (typeof showStep === "function") showStep(0);
 });

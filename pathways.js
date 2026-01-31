@@ -68,6 +68,17 @@ const careerGoal = userProfile.careerGoal || "Career Goal";
 if (careerHeader) careerHeader.textContent = `Career Goal: ${careerGoal}`;
 if (goalNode) goalNode.textContent = careerGoal;
 
+// ===== Personalize start node + header with user's name =====
+const userName = userProfile && userProfile.name ? userProfile.name : null;
+const startNode = document.querySelector('.startNode');
+if (startNode) startNode.textContent = userName || 'You';
+const headerPara = document.querySelector('header p');
+if (headerPara) {
+  headerPara.textContent = userName
+    ? `There’s more than one way to get there — these are paths that could work for ${userName}.`
+    : `There’s more than one way to get there — these are paths that could work for you.`;
+}
+
 // ===== Profile summary =====
 const profileContent = document.getElementById("profileContent");
 

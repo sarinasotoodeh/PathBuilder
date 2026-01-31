@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Suggested High-School Courses</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1 id="pageTitle">High-school prerequisites</h1>
+      <p id="intro">Recommended high-school courses for your chosen field.</p>
+    </header>
+
+    <main class="card">
+      <section id="coursesSection">
+        <h2 id="forField"></h2>
+        <p class="hint">These are general prerequisites — check program pages for exact requirements.</p>
+        <ul id="coursesList"></ul>
+      </section>
+
+      <div style="margin-top:16px; display:flex; gap:10px;">
+        <a id="continueBtn" href="pathways.html" class="button">Continue to pathways</a>
+        <button id="editBtn" class="button" type="button">Edit answers</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="prerequisites.js"></script>
+</body>
+</html>
