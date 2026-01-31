@@ -1,3 +1,10 @@
+const userProfile = JSON.parse(localStorage.getItem("userProfile"));
+
+if (!userProfile) {
+  alert("No profile found. Please complete the intake form.");
+  window.location.href = "index.html"; // intake page
+}
+
 const pathways = {
     uni: {
         icon: "🎓",
@@ -50,14 +57,14 @@ const cards = document.getElementById("cards");
 function selectPath(key) {
     document.querySelectorAll(".mapIcon").forEach(b => b.classList.remove("active"));
     document.querySelector(`.mapIcon[data-path="${key}"]`).classList.add("active");
-
+    
     const p = pathways[key];
     mapInfo.innerHTML = `
-      <h2>${p.icon} ${p.title}</h2>
-      <p>${p.why}</p>
-      <p><strong>Time:</strong> ${p.time}</p>
-      <p><strong>Cost:</strong> ${p.cost}</p>
-      <p><strong>Learning style:</strong> ${p.style}</p>
+    <h2>${p.icon} ${p.title}</h2>
+    <p>${p.why}</p>
+    <p><strong>Time:</strong> ${p.time}</p>
+    <p><strong>Cost:</strong> ${p.cost}</p>
+    <p><strong>Learning style:</strong> ${p.style}</p>
     `;
 }
 
@@ -71,12 +78,26 @@ for (const key in pathways) {
     const card = document.createElement("div");
     card.className = "card";
     card.innerHTML = `
-      ${p.tag ? `<div class="tag">${p.tag}</div>` : ""}
-      <h3>${p.icon} ${p.title}</h3>
-      <p>${p.why}</p>
-      <p><strong>Time:</strong> ${p.time}</p>
-      <p><strong>Cost:</strong> ${p.cost}</p>
-      <p><strong>Style:</strong> ${p.style}</p>
+    ${p.tag ? `<div class="tag">${p.tag}</div>` : ""}
+    <h3>${p.icon} ${p.title}</h3>
+    <p>${p.why}</p>
+    <p><strong>Time:</strong> ${p.time}</p>
+    <p><strong>Cost:</strong> ${p.cost}</p>
+    <p><strong>Style:</strong> ${p.style}</p>
     `;
     cards.appendChild(card);
 }
+document.getElementById("careerHeader").textContent =
+  `Career Goal: ${userProfile.careerGoal}`;
+let bestPath = "college";
+
+if (userProfile.learningStyle === "hands-on") {
+  bestPath = "bootcamp";
+}
+if (userProfile.avgGrade >= 85) {
+  bestPath = "uni";
+}
+if (userProfile.financePref === "low") {
+  bestPath = "apprenticeship";
+}
+selectPath(bestPath);

@@ -136,3 +136,5 @@ resetBtn.addEventListener("click", () => {
 
 // Initial state
 qs("#submitBtn").disabled = true;
+localStorage.setItem("userProfile", JSON.stringify(userProfile));
+window.location.href = "pathways.html";
