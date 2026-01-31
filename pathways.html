@@ -21,20 +21,8 @@
     <section id="mapLayout">
 
       <div id="pathMap">
-        <!-- SVG lines -->
-        <svg id="mapLines" viewBox="0 0 1000 500" preserveAspectRatio="none">
-          <line id="line-you-uni" x1="140" y1="250" x2="420" y2="110" />
-          <line id="line-you-college" x1="140" y1="250" x2="420" y2="200" />
-          <line id="line-you-bootcamp" x1="140" y1="250" x2="420" y2="290" />
-          <line id="line-you-apprenticeship" x1="140" y1="250" x2="420" y2="380" />
-          <line id="line-you-military" x1="140" y1="250" x2="420" y2="470" />
-
-          <line id="line-uni-goal" x1="420" y1="110" x2="860" y2="250" />
-          <line id="line-college-goal" x1="420" y1="200" x2="860" y2="250" />
-          <line id="line-bootcamp-goal" x1="420" y1="290" x2="860" y2="250" />
-          <line id="line-apprenticeship-goal" x1="420" y1="380" x2="860" y2="250" />
-          <line id="line-military-goal" x1="420" y1="470" x2="860" y2="250" />
-        </svg>
+        <!-- Curvy route SVG (lines get drawn by JS) -->
+        <svg id="routeSvg" aria-hidden="true"></svg>
 
         <!-- Start -->
         <div class="node startNode">You</div>

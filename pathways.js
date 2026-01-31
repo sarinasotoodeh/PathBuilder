@@ -220,3 +220,80 @@ document.querySelectorAll(".pathNode").forEach((btn) => {
 
 // Auto-select best path on load
 selectPath(rankedPaths[0][0]);
+
+// ============================
+// Curved map routes (REQUIRED)
+// ============================
+let activeRouteKey = null;
+
+function centerOf(el, containerRect) {
+  const r = el.getBoundingClientRect();
+  return {
+    x: r.left - containerRect.left + r.width / 2,
+    y: r.top - containerRect.top + r.height / 2
+  };
+}
+
+function curvePath(a, b) {
+  const dx = b.x - a.x;
+  const c1 = { x: a.x + dx * 0.35, y: a.y };
+  const c2 = { x: b.x - dx * 0.35, y: b.y };
+  return `M ${a.x},${a.y} C ${c1.x},${c1.y} ${c2.x},${c2.y} ${b.x},${b.y}`;
+}
+
+function drawRoutes() {
+  const map = document.getElementById("pathMap");
+  const svg = document.getElementById("routeSvg");
+  const start = document.querySelector(".startNode");
+  const goal = document.getElementById("goalNode");
+  if (!map || !svg || !start || !goal) return;
+
+  svg.innerHTML = "";
+
+  const mapRect = map.getBoundingClientRect();
+  const startPt = centerOf(start, mapRect);
+  const goalPt = centerOf(goal, mapRect);
+
+  document.querySelectorAll(".pathNode").forEach(btn => {
+    const key = btn.dataset.path;
+    const midPt = centerOf(btn, mapRect);
+
+    const d1 = curvePath(startPt, midPt);
+    const d2 = curvePath(midPt, goalPt);
+
+    const p1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    p1.setAttribute("d", d1);
+    p1.setAttribute("class", "route");
+    p1.dataset.routeKey = key;
+
+    const p2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    p2.setAttribute("d", d2);
+    p2.setAttribute("class", "route");
+    p2.dataset.routeKey = key;
+
+    svg.appendChild(p1);
+    svg.appendChild(p2);
+  });
+
+  if (activeRouteKey) setActiveRoute(activeRouteKey);
+}
+
+function setActiveRoute(key) {
+  activeRouteKey = key;
+  document.querySelectorAll("#routeSvg .route").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(`#routeSvg .route[data-route-key="${key}"]`)
+    .forEach(p => p.classList.add("active"));
+}
+
+// highlight when user clicks a pathway
+document.querySelectorAll(".pathNode").forEach(btn => {
+  btn.addEventListener("click", () => {
+    setActiveRoute(btn.dataset.path);
+    requestAnimationFrame(drawRoutes);
+  });
+});
+
+// draw on load + resize
+window.addEventListener("load", () => setTimeout(drawRoutes, 50));
+window.addEventListener("resize", () => drawRoutes());
+
