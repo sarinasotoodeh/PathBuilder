@@ -2,8 +2,8 @@ html, body {
   min-height: 100%;
 }
 :root {
-    --bg: #0b1020;
-    --card: #121a33;
+    --bg: #6684A4;
+    --card: #6684A4;
     --text: #e9ecf6;
     --muted: #b7c0e6;
     --border: rgba(255, 255, 255, 0.12);
@@ -47,7 +47,7 @@ h1 {
 }
 
 .card {
-    background: rgba(18, 26, 51, 0.88);
+    background: rgb(57, 91, 125);
     border: 1px solid var(--border);
     border-radius: 16px;
     padding: 18px;
