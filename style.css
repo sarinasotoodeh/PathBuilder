@@ -1,5 +1,8 @@
+html, body {
+  min-height: 100%;
+}
 :root {
-    --bg: #0b1020;
+    --bg: #6684a4;
     --card: #121a33;
     --text: #e9ecf6;
     --muted: #b7c0e6;
@@ -84,8 +87,8 @@ select {
     padding: 12px 12px;
     border-radius: 12px;
     border: 1px solid var(--border);
-    background: rgba(0, 0, 0, 0.25);
-    color: var(--text);
+    background: rgba(216, 10, 10, 0.25);
+    color: #717885;
     outline: none;
 }
 
