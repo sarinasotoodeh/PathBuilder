@@ -110,6 +110,7 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    animation: rise 0.6s ease-out both;
 }
 
 #mapInfo h2 {
@@ -122,6 +123,7 @@ main {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1rem;
+    animation: rise 0.6s ease-out both;
 }
 
 .card {
@@ -129,11 +131,13 @@ main {
     padding: 1rem;
     border-radius: 12px;
     border: 1px solid #ddd;
+    animation: rise 0.6s ease-out both;
 }
 
 /* Profile summary tweaks */
 #profileSummary.card {
     display: block;
+    animation: rise 0.6s ease-out both;
 }
 #profileContent {
     display: grid;
@@ -196,3 +200,12 @@ main {
 .map-path--glow { filter: blur(6px); opacity:0.18; }
 @keyframes path-draw { to { stroke-dashoffset: 0; } }
 @media (max-width:800px) { #mapSvg { display:none; } }
+
+.card {
+  animation: rise 0.6s ease-out both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
