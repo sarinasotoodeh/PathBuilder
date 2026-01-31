@@ -103,30 +103,28 @@ form.addEventListener("input", lightweightCheck);
 form.addEventListener("change", lightweightCheck);
 
 form.addEventListener("submit", (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!validate()) {
-        setText("statusText", "Please fix the highlighted fields.");
-        return;
-    }
+  if (!validate()) return;
 
-    const userProfile = {
-        careerGoal: qs("#careerGoal").value,
-        hsYear: Number(qs("#hsYear").value),
-        subjects: getCheckedValues("subjects"),
-        interests: getCheckedValues("interests"),
-        learningStyle: getRadioValue("learningStyle"),
-        avgGrade: Number(qs("#avgGrade").value),
-        financePref: getRadioValue("financePref"),
-        createdAt: new Date().toISOString()
-    };
+  const userProfile = {
+    careerGoal: qs("#careerGoal").value,
+    hsYear: Number(qs("#hsYear").value),
+    subjects: getCheckedValues("subjects"),
+    interests: getCheckedValues("interests"),
+    learningStyle: getRadioValue("learningStyle"),
+    avgGrade: Number(qs("#avgGrade").value),
+    financePref: getRadioValue("financePref"),
+    createdAt: new Date().toISOString()
+  };
 
-    console.log("userProfile:", userProfile);
+  // SAVE
+  localStorage.setItem("userProfile", JSON.stringify(userProfile));
 
-    output.textContent = JSON.stringify(userProfile, null, 2);
-    qs("#outputSection").style.display = "block";
-    setText("statusText", "Saved! (Printed below and logged to console.)");
+  // GO TO PAGE 2
+  window.location.href = "pathways.html";
 });
+
 
 resetBtn.addEventListener("click", () => {
     form.reset();
