@@ -165,6 +165,50 @@ rankedPaths.forEach(([key], index) => {
   }
 });
 
+// Apply visual classes to buttons and add the tag text inside the button name
+function applyTagClasses() {
+  document.querySelectorAll('.pathNode').forEach(el => {
+    el.classList.remove('best','alt','other');
+    const key = el.dataset.path;
+    const tag = pathways[key]?.tag || '';
+
+    if (tag === 'Best match') el.classList.add('best');
+    else if (tag === 'Strong alternative') el.classList.add('alt');
+    else if (tag === 'Another option') el.classList.add('other');
+
+    const ariaTxt = (pathways[key]?.title || '') + (tag ? ' — ' + tag : '');
+    el.setAttribute('title', ariaTxt);
+    el.setAttribute('aria-label', ariaTxt);
+  });
+}
+
+function applyButtonTags() {
+  document.querySelectorAll('.pathNode').forEach(el => {
+    const key = el.dataset.path;
+    const tag = pathways[key]?.tag || '';
+    const nameSpan = el.querySelector('span');
+    if (!nameSpan) return;
+
+    // remove any existing nodeTag
+    const old = nameSpan.querySelector('.nodeTag');
+    if (old) old.remove();
+
+    if (tag) {
+      const tagEl = document.createElement('span');
+      tagEl.className = 'nodeTag';
+      tagEl.textContent = ' · ' + tag; // " · Best match"
+      nameSpan.appendChild(tagEl);
+      el.dataset.tag = tag;
+    } else {
+      delete el.dataset.tag;
+    }
+  });
+}
+
+// Run these after ranking/tags are assigned
+applyTagClasses();
+applyButtonTags();
+
 // ===== UI helpers for new map =====
 function clearActive() {
   // button highlights

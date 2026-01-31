@@ -318,6 +318,29 @@ main {
 }
 
 /* ===============================
+   pathway button inline tag
+================================ */
+.nodeTag {
+  font-size: 0.72rem;
+  color: #6b7280;
+  margin-left: 6px;
+  padding-left: 6px;
+  border-left: 1px solid rgba(0,0,0,0.06);
+  vertical-align: middle;
+  font-weight: 500;
+}
+
+/* colored variants when classes are applied to the button */
+.pathNode.best .nodeTag { color: #059669; border-left-color: rgba(5,150,105,0.10); font-weight:600; }
+.pathNode.alt  .nodeTag { color: #0891b2; border-left-color: rgba(8,145,178,0.08); }
+.pathNode.other .nodeTag { color: #64748b; border-left-color: rgba(100,116,139,0.06); }
+
+/* keep things tidy on small screens */
+@media (max-width: 600px) {
+  .nodeTag { display: none; }
+}
+
+/* ===============================
    Animation
 ================================ */
 @keyframes rise {
