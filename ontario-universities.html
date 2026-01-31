@@ -6,6 +6,10 @@
     <title>Ontario Universities & Programs</title>
     <link rel="stylesheet" href="pathways.css">
     <style>
+        * {
+            transition: all 0.3s ease;
+        }
+
         .detail-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -13,32 +17,42 @@
         }
         .back-btn {
             display: inline-block;
-            margin-bottom: 1.5rem;
-            padding: 0.75rem 1rem;
-            background: #4f46e5;
+            margin-bottom: 2rem;
+            padding: 0.85rem 1.5rem;
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 50px;
             cursor: pointer;
             text-decoration: none;
             font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         .back-btn:hover {
-            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
         .search-bar {
             background: white;
             padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid #ddd;
+            border-radius: 16px;
+            border: 2px solid transparent;
             margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
         }
         .search-bar input {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
             font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        .search-bar input:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
         .universities-grid {
             display: grid;
@@ -48,14 +62,26 @@
         }
         .uni-card {
             background: white;
-            border: 1px solid #ddd;
-            border-radius: 12px;
+            border: 2px solid transparent;
+            border-radius: 16px;
             overflow: hidden;
-            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+            position: relative;
+        }
+        .uni-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            z-index: 1;
         }
         .uni-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            transform: translateY(-6px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 8px 20px rgba(0, 0, 0, 0.06);
+            border-color: rgba(79, 70, 229, 0.1);
         }
         .uni-logo {
             width: 100%;
@@ -67,26 +93,37 @@
             font-size: 48px;
             color: white;
             font-weight: bold;
+            overflow: hidden;
+        }
+        .uni-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
         }
         .uni-card-content {
             padding: 1.5rem;
         }
         .uni-card h3 {
             margin: 0 0 0.5rem 0;
-            color: #0f172a;
+            color: #2d3748;
             font-size: 1.2rem;
+            font-weight: 700;
         }
         .uni-location {
-            color: #666;
+            color: #718096;
             font-size: 0.9rem;
             margin-bottom: 1rem;
+            font-weight: 500;
         }
         .programs {
             margin-bottom: 1rem;
         }
         .programs-title {
             font-weight: 700;
-            color: #4f46e5;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 0.5rem;
             font-size: 0.9rem;
         }
@@ -98,7 +135,7 @@
         .program-list li {
             padding: 0.35rem 0;
             font-size: 0.9rem;
-            color: #334155;
+            color: #4a5568;
         }
         .program-list li::before {
             content: "→ ";
@@ -108,16 +145,18 @@
         }
         .uni-link {
             display: inline-block;
-            padding: 0.5rem 1rem;
-            background: #4f46e5;
+            padding: 0.65rem 1.25rem;
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
             color: white;
             text-decoration: none;
-            border-radius: 6px;
+            border-radius: 50px;
             font-size: 0.9rem;
             font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         .uni-link:hover {
-            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
         .filter-buttons {
             display: flex;
@@ -126,21 +165,24 @@
             flex-wrap: wrap;
         }
         .filter-btn {
-            padding: 0.5rem 1rem;
-            background: #f0f4f8;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
+            padding: 0.65rem 1.25rem;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
             cursor: pointer;
             font-size: 0.9rem;
-            transition: all 0.2s;
+            font-weight: 600;
+            color: #4a5568;
         }
         .filter-btn:hover {
-            background: #e2e8f0;
+            background: #eef2ff;
+            border-color: #4f46e5;
         }
         .filter-btn.active {
-            background: #4f46e5;
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
             color: white;
             border-color: #4f46e5;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>

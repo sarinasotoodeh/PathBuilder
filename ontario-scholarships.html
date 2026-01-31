@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ontario University Scholarships</title>
+    <link rel="stylesheet" href="pathways.css">
+    <style>
+        * {
+            transition: all 0.3s ease;
+        }
+
+        .detail-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding: 0.85rem 1.5rem;
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .search-bar {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 2px solid transparent;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        .search-bar input:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+        .filter-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 0.65rem 1.25rem;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        .filter-btn:hover {
+            background: #eef2ff;
+            border-color: #4f46e5;
+        }
+        .filter-btn.active {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            color: white;
+            border-color: #4f46e5;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .scholarships-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .scholarship-card {
+            background: white;
+            border: 2px solid transparent;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+            position: relative;
+        }
+        .scholarship-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #10b981, #059669);
+            z-index: 1;
+        }
+        .scholarship-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 8px 20px rgba(0, 0, 0, 0.06);
+            border-color: rgba(16, 185, 129, 0.1);
+        }
+        .scholarship-header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7aa7ff 100%);
+            padding: 1.5rem;
+            color: white;
+        }
+        .scholarship-header h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        .scholarship-university {
+            font-size: 0.9rem;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+        .scholarship-amount {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+        .scholarship-content {
+            padding: 1.5rem;
+        }
+        .scholarship-section {
+            margin-bottom: 1.25rem;
+        }
+        .scholarship-section-title {
+            font-weight: 700;
+            background: linear-gradient(135deg, #10b981, #059669);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        .skills-list, .requirements-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .skills-list li, .requirements-list li {
+            padding: 0.35rem 0;
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+        .skills-list li::before, .requirements-list li::before {
+            content: "✓ ";
+            color: #10b981;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        .coverage-badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            background: #dbeafe;
+            color: #0c4a6e;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .more-info-btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #4f46e5;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+        }
+        .more-info-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🏆 Ontario University Scholarships</h1>
+        <p>Discover scholarships from Ontario universities and find the perfect funding opportunity for your studies.</p>
+    </header>
+
+    <div class="detail-container">
+        <button class="back-btn" onclick="window.history.back()">← Back</button>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search scholarships by name or university..." />
+        </div>
+
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Coverage</button>
+            <button class="filter-btn" data-filter="full">Full Tuition</button>
+            <button class="filter-btn" data-filter="partial">Partial Tuition</button>
+            <button class="filter-btn" data-filter="award">Fixed Award</button>
+        </div>
+
+        <div class="scholarships-grid" id="scholarshipsGrid">
+            <!-- Scholarship cards will be inserted here -->
+        </div>
+    </div>
+
+    <script>
+        const scholarships = [
+            {
+                name: "Lester B. Pearson International Scholarship",
+                university: "University of Toronto",
+                coverage: "Full Tuition",
+                amount: "Covers full tuition + living expenses",
+                skills: ["Excellent academic record (90%+)", "Leadership experience", "Community involvement", "English/French proficiency"],
+                requirements: ["International students only", "High school or equivalent", "Renewable for 4 years"],
+                website: "https://www.utoronto.ca"
+            },
+            {
+                name: "Presidential Scholarship",
+                university: "McMaster University",
+                coverage: "Partial Tuition",
+                amount: "$5,000 - $15,000 per year",
+                skills: ["Strong GPA (3.5+)", "Demonstrated leadership", "Community service", "Problem-solving abilities"],
+                requirements: ["First-year students", "Canadian citizens/permanent residents", "Full-time study"],
+                website: "https://www.mcmaster.ca"
+            },
+            {
+                name: "Engineering Excellence Award",
+                university: "University of Waterloo",
+                coverage: "Partial Tuition",
+                amount: "$8,000 - $12,000 per year",
+                skills: ["Strong STEM abilities", "Innovation mindset", "Team collaboration", "Technical expertise"],
+                requirements: ["Engineering program students", "Minimum 85% average", "Co-op program participation"],
+                website: "https://www.uwaterloo.ca"
+            },
+            {
+                name: "Ivey Business School Scholarship",
+                university: "Western University",
+                coverage: "Full Tuition",
+                amount: "Covers full tuition + $5,000 living allowance",
+                skills: ["Exceptional business aptitude", "Leadership qualities", "Entrepreneurial mindset", "Communication skills"],
+                requirements: ["Business program students", "90%+ average", "Essay submission required"],
+                website: "https://www.uwo.ca"
+            },
+            {
+                name: "Environmental Stewardship Award",
+                university: "University of Guelph",
+                coverage: "Fixed Award",
+                amount: "$3,000 per year",
+                skills: ["Environmental passion", "Sustainability knowledge", "Research interest", "Analytical skills"],
+                requirements: ["Environmental science/agriculture programs", "GPA 3.2+", "Community service record"],
+                website: "https://www.uoguelph.ca"
+            },
+            {
+                name: "STEM Excellence Scholarship",
+                university: "Ryerson University (Toronto Metropolitan)",
+                coverage: "Partial Tuition",
+                amount: "$6,000 - $10,000 per year",
+                skills: ["Strong math and science abilities", "Innovation", "Problem-solving", "Technical skills"],
+                requirements: ["Science, Technology, Engineering, or Math programs", "80%+ average", "Essay required"],
+                website: "https://www.torontomu.ca"
+            },
+            {
+                name: "Carleton Academic Excellence Award",
+                university: "Carleton University",
+                coverage: "Partial Tuition",
+                amount: "$4,000 - $8,000 per year",
+                skills: ["Strong academic performance", "Intellectual curiosity", "Research interest", "Critical thinking"],
+                requirements: ["All programs", "3.5+ GPA", "First or second year students"],
+                website: "https://www.carleton.ca"
+            },
+            {
+                name: "York Schulich Leadership Award",
+                university: "York University",
+                coverage: "Full Tuition",
+                amount: "Full tuition + $3,000 annual stipend",
+                skills: ["Exceptional leadership", "Community engagement", "Business acumen", "Innovation"],
+                requirements: ["All programs", "90%+ average", "Leadership experience documented"],
+                website: "https://www.yorku.ca"
+            },
+            {
+                name: "Laurier Excellence Award",
+                university: "Laurier University",
+                coverage: "Partial Tuition",
+                amount: "$5,000 - $9,000 per year",
+                skills: ["Strong academics", "Leadership", "Volunteer experience", "Communication skills"],
+                requirements: ["All programs", "85%+ average", "Renewable annually"],
+                website: "https://www.wlu.ca"
+            },
+            {
+                name: "OCAD Artistic Merit Scholarship",
+                university: "OCAD University",
+                coverage: "Fixed Award",
+                amount: "$2,500 - $5,000 per year",
+                skills: ["Outstanding artistic talent", "Creative vision", "Portfolio quality", "Technical skills"],
+                requirements: ["Visual arts/design programs", "Strong portfolio submission", "Academic average 75%+"],
+                website: "https://www.ocadu.ca"
+            }
+        ];
+
+        function renderScholarships(schols) {
+            const grid = document.getElementById("scholarshipsGrid");
+            grid.innerHTML = "";
+            schols.forEach(scholarship => {
+                const card = document.createElement("div");
+                card.className = "scholarship-card";
+                card.innerHTML = `
+                    <div class="scholarship-header">
+                        <h3>${scholarship.name}</h3>
+                        <div class="scholarship-university">📍 ${scholarship.university}</div>
+                        <div class="scholarship-amount">${scholarship.amount}</div>
+                    </div>
+                    <div class="scholarship-content">
+                        <div class="coverage-badge">${scholarship.coverage}</div>
+                        
+                        <div class="scholarship-section">
+                            <div class="scholarship-section-title">Required Skills & Qualities</div>
+                            <ul class="skills-list">
+                                ${scholarship.skills.map(skill => `<li>${skill}</li>`).join("")}
+                            </ul>
+                        </div>
+
+                        <div class="scholarship-section">
+                            <div class="scholarship-section-title">Requirements</div>
+                            <ul class="requirements-list">
+                                ${scholarship.requirements.map(req => `<li>${req}</li>`).join("")}
+                            </ul>
+                        </div>
+
+                        <button class="more-info-btn" onclick="window.open('${scholarship.website}', '_blank')">Learn More →</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        document.getElementById("searchInput").addEventListener("input", (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = scholarships.filter(s =>
+                s.name.toLowerCase().includes(query) ||
+                s.university.toLowerCase().includes(query)
+            );
+            renderScholarships(filtered);
+        });
+
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+                e.target.classList.add("active");
+                const filter = e.target.dataset.filter;
+                
+                let filtered = scholarships;
+                if (filter !== "all") {
+                    filtered = scholarships.filter(s => s.coverage.toLowerCase().includes(filter));
+                }
+                renderScholarships(filtered);
+            });
+        });
+
+        // Initial render
+        renderScholarships(scholarships);
+    </script>
+</body>
+</html>

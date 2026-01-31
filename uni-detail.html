@@ -6,42 +6,116 @@
     <title>University Degree</title>
     <link rel="stylesheet" href="pathways.css">
     <style>
+        * {
+            transition: all 0.3s ease;
+        }
+
         .detail-container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 2rem;
         }
+
         .back-btn {
             display: inline-block;
-            margin-bottom: 1.5rem;
-            padding: 0.75rem 1rem;
-            background: #4f46e5;
+            margin-bottom: 2rem;
+            padding: 0.85rem 1.5rem;
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 50px;
             cursor: pointer;
             text-decoration: none;
             font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
+
         .back-btn:hover {
-            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
+
         .detail-section {
             background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid #ddd;
-            margin-bottom: 1.5rem;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            border: 2px solid transparent;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+            position: relative;
+            overflow: hidden;
         }
+
+        .detail-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4f46e5, #7c3aed, #db2777);
+            background-size: 200% 100%;
+        }
+
+        .detail-section:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 8px 20px rgba(0, 0, 0, 0.06);
+            border-color: rgba(79, 70, 229, 0.1);
+        }
+
         .detail-section h2 {
-            color: #4f46e5;
+            color: #2d3748;
             margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.65rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        ul, ol {
+
+        .detail-section p {
+            color: #4a5568;
+            font-size: 1rem;
             line-height: 1.8;
         }
+
+        .detail-section strong {
+            color: #2d3748;
+            font-weight: 700;
+        }
+
+        ul, ol {
+            line-height: 2;
+        }
+
         li {
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.9rem;
+            color: #4a5568;
+            font-size: 1rem;
+            padding-left: 0.5rem;
+        }
+
+        .detail-section ul li::marker {
+            color: #4f46e5;
+            font-weight: 600;
+        }
+
+        .detail-section ol li::marker {
+            color: #7c3aed;
+            font-weight: 600;
+        }
+
+        .detail-section > div:nth-child(1) {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .detail-section > div:nth-child(1) > a {
+            flex: 1;
+            min-width: 200px;
         }
     </style>
 </head>
@@ -54,10 +128,17 @@
     <div class="detail-container">
         <button class="back-btn" onclick="window.history.back()">← Back to Pathways</button>
 
-        <div class="detail-section" style="background: linear-gradient(135deg, #f0f4f8, #ffffff); border: 2px solid #4f46e5;">
-            <h2 style="color: #4f46e5;">🏛️ Explore Ontario Universities</h2>
-            <p>Interested in studying in Ontario? Check out the major universities and their programs.</p>
-            <a href="ontario-universities.html" style="display: inline-block; padding: 0.75rem 1.5rem; background: #4f46e5; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">Browse Ontario Universities →</a>
+        <div class="detail-section" style="background: linear-gradient(135deg, #f0f4f8 0%, #ffffff 100%); border: 2px solid #4f46e5;">
+            <h2 style="background: linear-gradient(135deg, #4f46e5, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">🏛️ Explore Ontario Universities</h2>
+            <p style="color: #555; margin-bottom: 1.5rem;">Interested in studying in Ontario? Check out the major universities, their programs, and available scholarships.</p>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <a href="ontario-universities.html" style="display: inline-block; padding: 0.9rem 2rem; background: linear-gradient(135deg, #4f46e5, #6366f1); color: white; text-decoration: none; border-radius: 50px; font-weight: 600; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3); transition: all 0.3s ease;">
+                    Browse Universities →
+                </a>
+                <a href="ontario-scholarships.html" style="display: inline-block; padding: 0.9rem 2rem; background: linear-gradient(135deg, #10b981, #059669); color: white; text-decoration: none; border-radius: 50px; font-weight: 600; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); transition: all 0.3s ease;">
+                    Explore Scholarships 🏆
+                </a>
+            </div>
         </div>
 
         <div class="detail-section">
