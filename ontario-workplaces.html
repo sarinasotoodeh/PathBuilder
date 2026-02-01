@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ontario Workplaces</title>
+    <link rel="stylesheet" href="pathways.css">
+    <style>
+        * { transition: all 0.25s ease; }
+        body { background:#f8fafc; color:#0f172a; }
+        .detail-container { max-width:1100px; margin:0 auto; padding:2rem; }
+        .back-btn { display:inline-block; margin-bottom:1rem; padding:0.6rem 1rem; background:linear-gradient(135deg,#ec4899,#f472b6); color:white; border:none; border-radius:10px; font-weight:600; }
+        .search-bar { background:white; padding:0.8rem; border-radius:10px; margin-bottom:1rem; border:1px solid #ececec; }
+        .search-bar input { width:100%; padding:10px 12px; border-radius:8px; border:1px solid #e6e6e6; }
+        .filter-buttons { display:flex; gap:0.5rem; margin:1rem 0 1.25rem; flex-wrap:wrap; }
+        .filter-btn { padding:0.45rem 0.85rem; border-radius:999px; background:#ffffff; border:1px solid #e6e7ee; cursor:pointer; font-weight:600; }
+        .filter-btn.active { background:linear-gradient(135deg,#ec4899,#f472b6); color:white; }
+        .work-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1rem; }
+        .work-card { background:white; border-radius:10px; padding:0.9rem; box-shadow:0 1px 6px rgba(2,6,23,0.06); border:1px solid #eef2f7; position:relative; overflow:hidden; }
+        .work-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg, #ec4899, #f472b6); z-index:1; }
+        .work-card h3 { margin:0 0 0.35rem 0; font-size:1.05rem; }
+        .meta { font-size:0.9rem; color:#475569; margin-bottom:0.45rem; }
+        .badge { display:inline-block; padding:0.18rem 0.5rem; background:#ecfccb; color:#365314; border-radius:6px; font-weight:700; font-size:0.8rem; margin-left:0.5rem; }
+        .section-title { font-weight:700; color:#ec4899; margin-top:0.5rem; }
+        .apply-btn { display:inline-block; margin-top:0.6rem; padding:0.45rem 0.8rem; background:#10b981; color:white; border-radius:8px; text-decoration:none; font-weight:700; }
+        .notice { background:#fff7ed; padding:0.75rem 1rem; border-radius:10px; margin-bottom:1rem; border:1px solid #fde7c6; }
+        ul { margin:0.35rem 0 0.35rem 1rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🏢 Ontario Workplaces (Entry-Level)</h1>
+        <p>Workplaces and employer pathways suitable for new high-school leavers: retail, warehouse, hospitality, trades apprenticeships, healthcare support, and realistic junior roles.</p>
+    </header>
+
+    <div class="detail-container">
+        <button class="back-btn" onclick="window.history.back()">← Back</button>
+
+        <div id="autoNotice" class="notice" style="display:none"></div>
+
+        <div class="search-bar">
+            <input id="searchInput" placeholder="Search workplaces, industries, or entry roles..." />
+        </div>
+
+        <div class="filter-buttons" id="filterButtons">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="retail">Retail</button>
+            <button class="filter-btn" data-filter="healthcare">Healthcare</button>
+            <button class="filter-btn" data-filter="trades">Trades / Apprenticeships</button>
+            <button class="filter-btn" data-filter="hospitality">Hospitality & Events</button>
+            <button class="filter-btn" data-filter="logistics">Logistics / Warehouse</button>
+            <button class="filter-btn" data-filter="education">Education & Community</button>
+            <button class="filter-btn" data-filter="creative">Creative / Media</button>
+            <button class="filter-btn" data-filter="tech">Tech (intern / junior)</button>
+            <button class="filter-btn" data-filter="public">Public Sector</button>
+        </div>
+
+        <div class="work-grid" id="workGrid"></div>
+    </div>
+
+    <script>
+        const storageKey = 'selectedCareerGoal';
+        function readChosenGoal() {
+            const fromUrl = new URLSearchParams(window.location.search).get('goal');
+            if (fromUrl) return fromUrl;
+            return localStorage.getItem(storageKey);
+        }
+
+        const workplaces = [
+            // Retail / Customer-facing (common first jobs)
+            { id:1, name:"Retail Chain — Sales & Stock (entry)", category:"retail", location:"Various Ontario cities", typicalRoles:["Sales Associate","Stock Clerk"], entryLevel:true, howToFind:["Company careers page","in-store postings","walk-in applications"], whoToContact:["Store manager","regional HR"], howToApply:["Online apply or in-person drop-off","short interview","trial shift"], requirements:"Punctuality, customer service attitude, flexible hours" },
+            { id:2, name:"Grocery Store — Frontline & Support", category:"retail", location:"Various Ontario cities", typicalRoles:["Cashier","Grocery Stocker","Customer Service"], entryLevel:true, howToFind:["Local job boards","store windows","college job boards"], whoToContact:["Store manager"], howToApply:["Apply online or in-person","trial shift"], requirements:"Reliable, cash-handling training often provided" },
+
+            // Logistics / Warehouse
+            { id:10, name:"Warehouse / Fulfillment — Entry Roles", category:"logistics", location:"Brampton / GTA", typicalRoles:["Picker / Packer","Fulfillment Associate"], entryLevel:true, howToFind:["Job boards","temp agencies"], whoToContact:["Operations manager","recruiter"], howToApply:["Online apply","on-site safety orientation"], requirements:"Physical stamina, attention to detail" },
+
+            // Hospitality
+            { id:20, name:"Hospitality — Front Desk & Events (entry)", category:"hospitality", location:"Niagara / Toronto", typicalRoles:["Front Desk","Events Assistant","Server (casual)"], entryLevel:true, howToFind:["Hospitality job boards","in-person enquiries"], whoToContact:["Manager","owner"], howToApply:["Apply in-person or online","provide past event or customer-service examples"], requirements:"Customer service skills, flexible hours" },
+
+            // Healthcare support & PSW trainees
+            { id:30, name:"Long-Term Care / PSW Trainee", category:"healthcare", location:"Various Ontario cities", typicalRoles:["PSW Trainee","Care Aide Support"], entryLevel:true, howToFind:["College PSW programs","local LTC job boards"], whoToContact:["Care home HR","training coordinators"], howToApply:["Apply with resume, attend orientation","complete required health checks"], requirements:"Many employers hire trainees and support course completion; caregiving aptitude required" },
+            { id:31, name:"Medical Office — Admin Support (entry)", category:"healthcare", location:"Regional Clinics", typicalRoles:["Reception / Admin"], entryLevel:true, howToFind:["Clinic sites","local health networks"], whoToContact:["Clinic manager"], howToApply:["Resume + phone screen"], requirements:"Basic computer skills, confidentiality awareness" },
+
+            // Trades / Apprenticeships
+            { id:40, name:"Construction Apprentice Intake / Site Labour (trades)", category:"trades", location:"Greater Toronto Area", typicalRoles:["Site Labourer","Apprentice Electrician","Plumbing Apprentice"], entryLevel:true, howToFind:["Union halls","trade schools","college partnerships"], whoToContact:["Foreman","apprenticeship coordinator"], howToApply:["Attend info day, apply to apprenticeship intake","secure employer sponsor"], requirements:"Physical readiness, basic math; many apprenticeships accept high-school leavers" },
+
+            // Education & Community
+            { id:50, name:"School Board — Office & Support (entry)", category:"education", location:"Local School Boards", typicalRoles:["Office Assistant","Lunchroom Supervisor","Program Support"], entryLevel:true, howToFind:["School board postings","community centres"], whoToContact:["School principal","HR"], howToApply:["Board application portal, background check"], requirements:"Clear DBS for working with youth" },
+
+            // Creative / Media
+            { id:60, name:"Media Co-op / Production Assistant", category:"creative", location:"Kitchener / Toronto", typicalRoles:["Production Assistant","Junior Content Creator"], entryLevel:true, howToFind:["College industry days","local co-ops"], whoToContact:["Studio manager"], howToApply:["Submit short samples or social links","attend trial day"], requirements:"Samples help but many hire motivated beginners" },
+
+            // Public sector / municipal
+            { id:70, name:"Municipal Jobs — Parks, Rec & Admin (entry)", category:"public", location:"Municipal offices", typicalRoles:["Parks & Rec Support","Admin Clerk"], entryLevel:true, howToFind:["Municipal careers site","community job centres"], whoToContact:["HR"], howToApply:["Municipal portal, references"], requirements:"Often accept high-school diploma for entry roles" },
+
+            // Tech — clarified as internships/junior for students with training
+            { id:80, name:"Tech Intern / Junior — Frontend (co-op / bootcamp grads)", category:"tech", location:"Waterloo / Toronto", typicalRoles:["Frontend Intern","Junior Dev (intern)"], entryLevel:false, howToFind:["Co-op postings","bootcamp grad lists","company early-career programs"], whoToContact:["Recruiter","engineering leads"], howToApply:["Portfolio + GitHub, mention co-op/bootcamp","small coding task"], requirements:"Often needs diploma, bootcamp or demonstrable projects; internships accept students" }
+        ];
+
+        const grid = document.getElementById('workGrid');
+        const searchInput = document.getElementById('searchInput');
+        const autoNotice = document.getElementById('autoNotice');
+
+        function render(list) {
+            grid.innerHTML = '';
+            if (!list.length) { grid.innerHTML = '<div class="notice">No workplaces match your search.</div>'; return; }
+            list.forEach(w => {
+                const card = document.createElement('div');
+                card.className = 'work-card';
+                card.innerHTML = `
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                        <div>
+                            <h3>${w.name}${w.entryLevel ? '<span class="badge">Entry-level</span>' : ''}</h3>
+                            <div class="meta">${w.industry || ''} • ${w.location}</div>
+                        </div>
+                    </div>
+
+                    <div><strong>Typical Roles:</strong> ${w.typicalRoles.join(', ')}</div>
+
+                    <div class="section-title">How to Find</div>
+                    <ul>${w.howToFind.map(i=>`<li>${i}</li>`).join('')}</ul>
+
+                    <div class="section-title">Who to Contact</div>
+                    <ul>${w.whoToContact.map(i=>`<li>${i}</li>`).join('')}</ul>
+
+                    <div class="section-title">How to Apply</div>
+                    <ul>${w.howToApply.map(i=>`<li>${i}</li>`).join('')}</ul>
+
+                    <div class="section-title">Requirements</div>
+                    <p style="margin:0">${w.requirements}</p>
+
+                    <a class="apply-btn" href="#" onclick="alert('Open employer careers page')">View Employer →</a>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function applyFilter(f) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f || (f==='all' && b.dataset.filter==='all')));
+            let list = workplaces;
+            if (f && f !== 'all') list = workplaces.filter(w => w.category === f);
+            const q = searchInput.value.trim().toLowerCase();
+            if (q) list = list.filter(w => (w.name + ' ' + (w.typicalRoles||[]).join(' ') + ' ' + (w.location||'')).toLowerCase().includes(q));
+            render(list);
+        }
+
+        // wire search
+        searchInput.addEventListener('input', () => {
+            const active = document.querySelector('.filter-btn.active').dataset.filter;
+            applyFilter(active);
+        });
+
+        // wire filters and persist selection
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', e => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                const f = e.target.dataset.filter;
+                if (f && f !== 'all') localStorage.setItem(storageKey, f); else localStorage.removeItem(storageKey);
+                applyFilter(f);
+            });
+        });
+
+        // auto filter on load
+        const chosen = readChosenGoal();
+        if (chosen) {
+            const btn = document.querySelector(`.filter-btn[data-filter="${chosen}"]`);
+            if (btn) { btn.click(); autoNotice.style.display='block'; autoNotice.textContent = `Auto-filtered to "${chosen}" based on your previous selection.`; }
+            else applyFilter('all');
+        } else applyFilter('all');
+    </script>
+</body>
+</html>
