@@ -25,10 +25,12 @@ Just open `index.html` in a browser — no build step or server needed.
 
 ## demo
 
-![PathBuilder team at Ellehacks 2026](./team%20photo.JPG)
 https://drive.google.com/file/d/1UIZTCC7J5ISyRf8TG7BkCbAmcUM9My5I/view?usp=share_link
 
 ## Team
+
+![PathBuilder team at Ellehacks 2026](./team%20photo.JPG)
+
 1. Sarina Sotoodeh
 2. Sophia Wu
 3. Sana Shahid
