@@ -23,11 +23,11 @@ HTML, CSS, JavaScript — no backend, scoped to fit the hackathon's 36-hour time
 
 Just open `index.html` in a browser — no build step or server needed.
 
-## Screenshots / demo
-
-*(coming soon)*
+## demo
+https://drive.google.com/file/d/1UIZTCC7J5ISyRf8TG7BkCbAmcUM9My5I/view?usp=share_link
 
 ## Team
-
-Built by a 4-person team at Ellehacks 2026.
-
+1. Sarina Sotoodeh
+2. Sophia Wu
+3. Sana Shahid
+4. Alicia Ssali
