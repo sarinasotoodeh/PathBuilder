@@ -24,14 +24,12 @@ HTML, CSS, JavaScript — no backend, scoped to fit the hackathon's 36-hour time
 Just open `index.html` in a browser — no build step or server needed.
 
 ## demo
-
-https://drive.google.com/file/d/1UIZTCC7J5ISyRf8TG7BkCbAmcUM9My5I/view?usp=share_link
+[Watch the demo video](https://drive.google.com/file/d/1UIZTCC7J5ISyRf8TG7BkCbAmcUM9My5I/view?usp=share_link)
 
 ## Team
-
-![PathBuilder team at Ellehacks 2026](./team%20photo.JPG)
-
 1. Sarina Sotoodeh
 2. Sophia Wu
 3. Sana Shahid
 4. Alicia Ssali
+![PathBuilder team at Ellehacks 2026](./team%20photo.JPG)
+
